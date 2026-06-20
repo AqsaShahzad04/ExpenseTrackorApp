@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
 
 
 
-@Database(entities = [Expense::class],version=1)
+@Database(entities = [Expense::class, Budget::class], version = 2)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
+    abstract fun budgetDao(): BudgetDao
 
     companion object{
         @Volatile
@@ -22,7 +23,7 @@ abstract class AppDatabase: RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "expense_database"
-                ).build()
+                ).fallbackToDestructiveMigration(false).build()
                 INSTANCE = instance
                 instance
             }
