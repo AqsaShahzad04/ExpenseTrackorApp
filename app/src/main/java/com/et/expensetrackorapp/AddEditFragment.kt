@@ -14,8 +14,9 @@ import com.et.expensetrackorapp.data.repository.ExpenseRepository
 import com.et.expensetrackorapp.databinding.FragmentAddEditBinding
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class AddEditFragment: Fragment() {
+class AddEditFragment: BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddEditBinding?=null
 
