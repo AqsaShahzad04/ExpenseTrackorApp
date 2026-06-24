@@ -26,6 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/inter"
             android:text="June 2026"
             android:textColor="#1A1612"
             android:textSize="22sp"
@@ -61,29 +62,88 @@
                     android:orientation="vertical"
                     android:padding="22dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="SPENT THIS MONTH"
-                        android:textColor="#A39A8C"
-                        android:textSize="12sp" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="SPENT THIS MONTH"
+                            android:textColor="#A39A8C"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textTxnsLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0 txns"
+                            android:textColor="#A39A8C"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textSpentThisMonth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/fraunces_bold"
                         android:text="Rs. 75,769"
                         android:textColor="#FFFCF5"
                         android:textSize="40sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="6dp" />
+                        android:textStyle="bold" />
 
                     <!-- Progress bar track -->
-                    <View
+                    <!-- Progress bar: grey track holding an orange fill -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="8dp"
                         android:layout_marginTop="18dp"
-                        android:background="#33FFFFFF" />
+                        android:orientation="horizontal"
+                        android:background="#33FFFFFF">
+
+                        <!-- Orange fill: weight set in code to be % of the row -->
+                        <View
+                            android:id="@+id/viewProgressFill"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0"
+                            android:background="#E8722C" />
+
+                        <!-- Empty remainder: takes up the rest -->
+                        <View
+                            android:id="@+id/viewProgressEmpty"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:id="@+id/textPercentOfBudget"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textColor="#A39A8C"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textRemaining"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#A39A8C"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <!-- Three stats row -->
                     <LinearLayout
@@ -103,14 +163,16 @@
                                 android:text="DAILY AVG"
                                 android:textColor="#A39A8C"
                                 android:textSize="11sp" />
+
                             <TextView
+                                android:id="@+id/textDailyAvg"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="Rs. 3,988"
                                 android:textColor="#FFFCF5"
                                 android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:layout_marginTop="4dp" />
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -124,14 +186,16 @@
                                 android:text="TXNS"
                                 android:textColor="#A39A8C"
                                 android:textSize="11sp" />
+
                             <TextView
+                                android:id="@+id/textTxns"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="14"
                                 android:textColor="#FFFCF5"
                                 android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:layout_marginTop="4dp" />
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -145,14 +209,16 @@
                                 android:text="CATEGORIES"
                                 android:textColor="#A39A8C"
                                 android:textSize="11sp" />
+
                             <TextView
+                                android:id="@+id/textCategories"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="8"
                                 android:textColor="#FFFCF5"
                                 android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:layout_marginTop="4dp" />
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -180,10 +246,12 @@
                 app:cardElevation="2dp">
 
                 <LinearLayout
+                    android:id="@+id/cardBudget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,13 +259,15 @@
                         android:textColor="#1A1612"
                         android:textSize="15sp"
                         android:textStyle="bold" />
+
                     <TextView
+                        android:id="@+id/textBudgetValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
                         android:text="Rs. 120,000"
                         android:textColor="#7A6F62"
-                        android:textSize="12sp"
-                        android:layout_marginTop="2dp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
