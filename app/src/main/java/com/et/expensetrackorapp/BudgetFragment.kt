@@ -77,11 +77,50 @@ class BudgetFragment: Fragment() {
                         binding.textMonthlyLimit.text = "Rs. ${"%,.0f".format(budget.amount)}"
 
                         val remaining = budget.amount - spentThisMonth
+                        val percent = if (budget.amount > 0)
+                            (spentThisMonth / budget.amount * 100).toInt()
+                        else 0
+
+                        binding.budgetRing.progress = percent.coerceAtMost(100)
+                        binding.textBudgetPercent.text = percent.toString()
                         binding.textBudgetRemaining.text = "Rs. ${"%,.0f".format(remaining)}"
+
+                        val calendar = java.util.Calendar.getInstance()
+                        val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+                        val daysInMonth = calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH)
+                        binding.textPacingLabel.text = "By day $dayOfMonth of $daysInMonth, expected"
+
+                        val expected = budget.amount * dayOfMonth / daysInMonth
+                        binding.textPacingExpected.text = "Rs. ${"%,.0f".format(expected)}"
+                        val delta = expected - spentThisMonth
+
+                        if (delta >= 0) {
+                            binding.textPacingStatus.text = "Under pace"
+                            binding.textPacingStatus.setTextColor(android.graphics.Color.parseColor("#D9822B"))
+                            binding.textPacingDelta.text = "-Rs. ${"%,.0f".format(delta)}"
+                        } else {
+                            binding.textPacingStatus.text = "Over pace"
+                            binding.textPacingStatus.setTextColor(android.graphics.Color.parseColor("#D32F2F"))
+                            binding.textPacingDelta.text = "+Rs. ${"%,.0f".format(-delta)}"
+                        }
+
+                        if (spentThisMonth > budget.amount) {
+                            binding.textOverBudgetBanner.visibility = View.VISIBLE
+                        } else {
+                            binding.textOverBudgetBanner.visibility = View.GONE
+                        }
+
                     } else {
 
                         binding.textMonthlyLimit.text = "Rs. 0"
                         binding.textBudgetRemaining.text = "Rs. 0"
+                        binding.budgetRing.progress = 0
+                        binding.textBudgetPercent.text = "0"
+                        binding.textPacingLabel.text = "By day —, expected"
+                        binding.textPacingExpected.text = "Rs. 0"
+                        binding.textPacingStatus.text = ""
+                        binding.textPacingDelta.text = "Rs. 0"
+                        binding.textOverBudgetBanner.visibility = View.GONE
                     }
                 }
             }

@@ -6,7 +6,10 @@
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="18dp"
     app:cardBackgroundColor="#FFFCF5"
-    app:cardElevation="1dp">
+    app:cardElevation="1dp"
+    app:strokeColor="#E0D7C8"
+    app:strokeWidth="1dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,10 +54,12 @@
                 android:id="@+id/textCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Category · Date"
                 android:textColor="#7A6F62"
-                android:textSize="13sp"
-                android:layout_marginTop="2dp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <!-- Amount -->

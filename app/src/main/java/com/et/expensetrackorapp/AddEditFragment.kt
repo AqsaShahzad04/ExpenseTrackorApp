@@ -50,11 +50,10 @@ class AddEditFragment: BottomSheetDialogFragment() {
             val name = binding.editName.text.toString()
 
 
-            val category = "Food"
-            val date = "2026-06-18"
+            val date = binding.editDate.text.toString()
 
 
-            if (amount.isBlank() || name.isBlank() ||selectedCategory == null) {
+            if (amount.isBlank() || name.isBlank() || date.isBlank() || selectedCategory == null) {
                 Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -146,7 +145,7 @@ class AddEditFragment: BottomSheetDialogFragment() {
                 requireContext(),
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // selectedMonth is 0-11, so add 1 for display
-                    val formatted = String.format("%02d/%02d/%04d", selectedMonth + 1, selectedDay, selectedYear)
+                    val formatted = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                     binding.editDate.setText(formatted)
                 },
                 year, month, day

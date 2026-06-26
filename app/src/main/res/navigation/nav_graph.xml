@@ -24,12 +24,22 @@
             android:id="@+id/action_home_to_budget"
             app:destination="@id/budgetFragment" />
 
+        <action
+            android:id="@+id/action_home_to_history"
+            app:destination="@id/historyFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/budgetFragment"
         android:name="com.et.expensetrackorapp.BudgetFragment"
         android:label="Budget"
         tools:layout="@layout/fragment_budget" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.et.expensetrackorapp.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history" />
 
 
 </navigation>
