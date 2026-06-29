@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.ksp)
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 android {
     namespace = "com.et.expensetrackorapp"
@@ -48,4 +49,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.8")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.20")
 }

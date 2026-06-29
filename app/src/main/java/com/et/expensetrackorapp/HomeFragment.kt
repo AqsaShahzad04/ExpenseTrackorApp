@@ -57,9 +57,7 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabAdd.setOnClickListener {
-            AddEditFragment().show(parentFragmentManager, "AddEditSheet")
-        }
+
         binding.cardBudget.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_budget)
         }

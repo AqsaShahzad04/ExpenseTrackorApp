@@ -44,6 +44,14 @@ class AddEditFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val today = java.util.Calendar.getInstance()
+        val todayFormatted = String.format(
+            "%04d-%02d-%02d",
+            today.get(java.util.Calendar.YEAR),
+            today.get(java.util.Calendar.MONTH) + 1,
+            today.get(java.util.Calendar.DAY_OF_MONTH)
+        )
+        binding.editDate.setText(todayFormatted)
         binding.btnAdd.setOnClickListener {
 
             val amount = binding.editAmount.text.toString()
@@ -67,14 +75,10 @@ class AddEditFragment: BottomSheetDialogFragment() {
                 note=null
             )
 
-
             viewModel.insert(expense)
 
             Toast.makeText(requireContext(), "Saved!", Toast.LENGTH_SHORT).show()
-            // clear the form for the next entry
-            binding.editAmount.text.clear()
-            binding.editName.text.clear()
-            binding.editDate.text.clear()
+            dismiss()
 
 // un-highlight the selected category card and reset tracking
             selectedCard?.setCardBackgroundColor(Color.parseColor("#FFFDF9"))
@@ -158,6 +162,18 @@ class AddEditFragment: BottomSheetDialogFragment() {
         super.onDestroyView()
 
         _binding=null
+    }
+
+    companion object {
+        private const val ARG_EXPENSE = "arg_expense"
+
+        fun newInstance(expense: Expense): AddEditFragment {
+            val fragment = AddEditFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_EXPENSE, expense)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }
