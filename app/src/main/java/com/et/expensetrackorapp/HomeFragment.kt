@@ -42,7 +42,9 @@ class HomeFragment: Fragment() {
         BudgetViewModelFactory(repository)
     }
 
-    private val adapter = ExpenseAdaptor(emptyList())
+    private val adapter = ExpenseAdaptor(emptyList()) {
+        findNavController().navigate(R.id.action_home_to_history)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

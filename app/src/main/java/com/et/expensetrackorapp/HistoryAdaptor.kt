@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.et.expensetrackorapp.databinding.ItemDateHeaderBinding
 import com.et.expensetrackorapp.databinding.ItemExpenseBinding
+import com.et.expensetrackorapp.data.local.Expense
 
 class HistoryAdaptor(
-    private var items: List<HistoryItem>
+    private var items: List<HistoryItem>,
+    private val onExpenseClick: (Expense) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0
@@ -48,6 +50,7 @@ class HistoryAdaptor(
             holder.binding.textTitle.text = e.title
             holder.binding.textCategory.text = "${e.category} · ${e.date}"
             holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(e.amount)}"
+            holder.itemView.setOnClickListener { onExpenseClick(e) }
         }
     }
 

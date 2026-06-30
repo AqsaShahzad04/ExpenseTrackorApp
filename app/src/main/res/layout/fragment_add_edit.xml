@@ -13,13 +13,14 @@
 
         <!-- Title -->
         <TextView
+            android:id="@+id/textTitle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
             android:text="Add expense"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="#2B2620"
-            android:paddingBottom="16dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
         <com.google.android.material.card.MaterialCardView
@@ -454,6 +455,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🗑"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#C0392B"
+                android:layout_marginEnd="8dp" />
 
             <Button
                 android:id="@+id/btnCancel"

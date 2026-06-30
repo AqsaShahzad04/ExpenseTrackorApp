@@ -7,7 +7,8 @@ import com.et.expensetrackorapp.data.local.Expense
 import com.et.expensetrackorapp.databinding.ItemExpenseBinding
 
 class ExpenseAdaptor(
-    private var expenseList: List<Expense>
+    private var expenseList: List<Expense>,
+    private val onItemClick: () -> Unit
 ) : RecyclerView.Adapter<ExpenseAdaptor.ExpenseViewHolder>() {
 
     inner class ExpenseViewHolder(
@@ -31,6 +32,7 @@ class ExpenseAdaptor(
         holder.binding.textTitle.text = expense.title
         holder.binding.textCategory.text = "${expense.category} · ${expense.date}"
         holder.binding.textAmount.text = "- Rs. ${expense.amount}"
+        holder.itemView.setOnClickListener { onItemClick() }
     }
 
     override fun getItemCount(): Int {

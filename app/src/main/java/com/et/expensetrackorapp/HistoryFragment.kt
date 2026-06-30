@@ -32,7 +32,9 @@ class HistoryFragment : Fragment() {
         ExpenseViewModelFactory(repository)
     }
 
-    private val adapter = HistoryAdaptor(emptyList())
+    private val adapter = HistoryAdaptor(emptyList()) { expense ->
+        AddEditFragment.newInstance(expense).show(parentFragmentManager, "edit")
+    }
     private var allItems: List<Expense> = emptyList()
 
     override fun onCreateView(

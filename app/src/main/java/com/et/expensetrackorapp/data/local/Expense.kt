@@ -1,6 +1,5 @@
 package com.et.expensetrackorapp.data.local
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 @Entity(tableName="Expenses")
@@ -12,6 +11,4 @@ data class Expense (
     val category: String,
     val date: String,
     val note: String?
-
-
 )
