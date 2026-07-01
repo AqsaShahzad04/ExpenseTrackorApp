@@ -51,4 +51,5 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.9.8")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.20")
+    implementation(libs.mpandroidchart)
 }

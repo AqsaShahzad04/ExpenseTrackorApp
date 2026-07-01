@@ -66,6 +66,9 @@ class HomeFragment: Fragment() {
         binding.textSeeAll.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_history)
         }
+        binding.cardStatistics.setOnClickListener {
+            findNavController().navigate(R.id.statsFragment)
+        }
 
         binding.recyclerExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerExpenses.adapter = adapter
