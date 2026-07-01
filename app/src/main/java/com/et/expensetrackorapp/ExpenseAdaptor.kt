@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.et.expensetrackorapp.data.local.Expense
 import com.et.expensetrackorapp.databinding.ItemExpenseBinding
+import com.et.expensetrackorapp.viewmodel.CategoryIcons
 
 class ExpenseAdaptor(
     private var expenseList: List<Expense>,
@@ -29,6 +30,7 @@ class ExpenseAdaptor(
 
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val expense = expenseList[position]
+        holder.binding.imageIcon.setImageResource(CategoryIcons.iconFor(expense.category))
         holder.binding.textTitle.text = expense.title
         holder.binding.textCategory.text = "${expense.category} · ${expense.date}"
         holder.binding.textAmount.text = "- Rs. ${expense.amount}"

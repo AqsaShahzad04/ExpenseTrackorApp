@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.et.expensetrackorapp.databinding.ItemDateHeaderBinding
 import com.et.expensetrackorapp.databinding.ItemExpenseBinding
 import com.et.expensetrackorapp.data.local.Expense
+import com.et.expensetrackorapp.viewmodel.CategoryIcons
 
 class HistoryAdaptor(
     private var items: List<HistoryItem>,
@@ -45,13 +46,14 @@ class HistoryAdaptor(
         val item = items[position]
         if (holder is HeaderViewHolder && item is HistoryItem.Header) {
             holder.binding.textDateHeader.text = item.label
-        } else if (holder is ExpenseViewHolder && item is HistoryItem.ExpenseRow) {
-            val e = item.expense
-            holder.binding.textTitle.text = e.title
-            holder.binding.textCategory.text = "${e.category} · ${e.date}"
-            holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(e.amount)}"
-            holder.itemView.setOnClickListener { onExpenseClick(e) }
-        }
+        }  else if (holder is ExpenseViewHolder && item is HistoryItem.ExpenseRow) {
+        val e = item.expense
+        holder.binding.imageIcon.setImageResource(CategoryIcons.iconFor(e.category))
+        holder.binding.textTitle.text = e.title
+        holder.binding.textCategory.text = "${e.category} · ${e.date}"
+        holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(e.amount)}"
+        holder.itemView.setOnClickListener { onExpenseClick(e) }
+    }
     }
 
     override fun getItemCount(): Int = items.size

@@ -82,7 +82,7 @@ class BudgetFragment: Fragment() {
                         else 0
 
                         binding.budgetRing.progress = percent.coerceAtMost(100)
-                        binding.textBudgetPercent.text = percent.toString()
+                        binding.textBudgetPercent.text = percent.coerceAtMost(100).toString()
                         binding.textBudgetRemaining.text = "Rs. ${"%,.0f".format(remaining)}"
 
                         val calendar = java.util.Calendar.getInstance()
