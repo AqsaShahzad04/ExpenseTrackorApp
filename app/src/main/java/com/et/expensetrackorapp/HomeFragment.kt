@@ -43,7 +43,7 @@ class HomeFragment: Fragment() {
     }
 
     private val adapter = ExpenseAdaptor(emptyList()) {
-        findNavController().navigate(R.id.action_home_to_history)
+        findNavController().navigate(R.id.historyFragment)
     }
 
     override fun onCreateView(
@@ -64,7 +64,7 @@ class HomeFragment: Fragment() {
             findNavController().navigate(R.id.action_home_to_budget)
         }
         binding.textSeeAll.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_history)
+            findNavController().navigate(R.id.historyFragment)
         }
         binding.cardStatistics.setOnClickListener {
             findNavController().navigate(R.id.statsFragment)

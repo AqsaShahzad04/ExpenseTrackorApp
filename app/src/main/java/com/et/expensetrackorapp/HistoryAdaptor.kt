@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.et.expensetrackorapp.databinding.ItemDateHeaderBinding
 import com.et.expensetrackorapp.databinding.ItemExpenseBinding
 import com.et.expensetrackorapp.data.local.Expense
+import com.et.expensetrackorapp.viewmodel.CategoryColors
 import com.et.expensetrackorapp.viewmodel.CategoryIcons
 
 class HistoryAdaptor(
@@ -49,6 +50,7 @@ class HistoryAdaptor(
         }  else if (holder is ExpenseViewHolder && item is HistoryItem.ExpenseRow) {
         val e = item.expense
         holder.binding.imageIcon.setImageResource(CategoryIcons.iconFor(e.category))
+            holder.binding.imageIcon.setColorFilter(CategoryColors.colorFor(e.category))
         holder.binding.textTitle.text = e.title
         holder.binding.textCategory.text = "${e.category} · ${e.date}"
         holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(e.amount)}"

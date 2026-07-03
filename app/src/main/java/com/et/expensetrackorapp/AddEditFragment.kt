@@ -213,6 +213,18 @@ class AddEditFragment: BottomSheetDialogFragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val dialog = dialog as? com.google.android.material.bottomsheet.BottomSheetDialog
+        val sheet = dialog?.findViewById<android.view.View>(
+            com.google.android.material.R.id.design_bottom_sheet
+        )
+        sheet?.let {
+            val behavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(it)
+            behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+            behavior.skipCollapsed = true
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
 

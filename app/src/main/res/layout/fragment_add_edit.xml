@@ -124,8 +124,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_today"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_foodanddrink"
+                        app:tint="#000000" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -159,8 +159,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_directions"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_transport"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,8 +194,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_help"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_health"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -229,8 +229,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_sort_by_size"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_shopping"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -264,8 +264,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_send"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_bills"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -299,8 +299,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_media_play"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_entertainment"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -334,8 +334,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_edit"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_education"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -369,8 +369,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_my_calendar"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_coffee"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -404,8 +404,8 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_more"
-                        app:tint="#5A5249" />
+                        android:src="@drawable/ic_other"
+                        app:tint="#000000" /> />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -456,14 +456,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🗑"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#C0392B"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_btn_delete"
+                android:layout_height="48dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:src="@drawable/ic_delete"
+                app:tint="#8A2525" />
 
             <Button
                 android:id="@+id/btnCancel"
@@ -480,9 +482,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#615D5D"
                 android:text="Add expense"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#B9AE9C" />
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
     </LinearLayout>
