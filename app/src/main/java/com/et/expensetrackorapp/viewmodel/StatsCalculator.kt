@@ -18,6 +18,11 @@ data class DayStat(
     val total: Double
 )
 
+// One bar in the "Month over month" chart
+data class MonthStat(
+    val label: String,   // e.g. "May"
+    val total: Double
+)
 object StatsCalculator {
 
     // Summary 1 + 2: total per category, sorted big to small, with %
@@ -52,6 +57,27 @@ object StatsCalculator {
                 .sumOf { it.amount }
             result.add(DayStat(label, dayTotal))
             calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+        return result
+    }
+
+    // Totals for the last 3 months, oldest first (e.g. May, Jun, Jul)
+    fun last3Months(expenses: List<Expense>): List<MonthStat> {
+        val keyFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault())
+        val labelFormat = SimpleDateFormat("MMM", Locale.getDefault())
+        val result = mutableListOf<MonthStat>()
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, -2) // 2 months ago + this month = 3 months
+
+        repeat(3) {
+            val key = keyFormat.format(calendar.time)     // "2026-05"
+            val label = labelFormat.format(calendar.time) // "May"
+            val monthTotal = expenses
+                .filter { it.date.startsWith(key) }
+                .sumOf { it.amount }
+            result.add(MonthStat(label, monthTotal))
+            calendar.add(Calendar.MONTH, 1)
         }
         return result
     }

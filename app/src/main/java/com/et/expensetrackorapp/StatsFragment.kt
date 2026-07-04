@@ -56,6 +56,7 @@ class StatsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupPieChart()
         setupBarChart()
+        setupMonthBarChart()
 
         // pill taps: change scope, update look, redraw
         binding.pill7Days.setOnClickListener {
@@ -77,6 +78,7 @@ class StatsFragment : Fragment() {
                     latestExpenses = allExpenses
                     refresh(allExpenses)
                     drawBarChart(allExpenses)
+                    drawMonthBarChart(allExpenses)
                 }
             }
         }
@@ -90,6 +92,7 @@ class StatsFragment : Fragment() {
         val entries = stats.map { PieEntry(it.total.toFloat(), it.category) }
         val colors = stats.map { CategoryColors.colorFor(it.category) }
         buildLegend(stats.map { it.category })
+        buildCategoryList(stats)
 
         val grandTotal = expenses.sumOf { it.amount }
         binding.tvTotal.text = "Rs. " + "%,.0f".format(grandTotal)
@@ -107,24 +110,33 @@ class StatsFragment : Fragment() {
 
     private fun drawBarChart(allExpenses: List<Expense>) {
         val days = StatsCalculator.last14Days(allExpenses)
+
+        // stub height so empty days show a short baseline instead of nothing
+        val maxTotal = days.maxOfOrNull { it.total }?.toFloat() ?: 0f
+        val stub = if (maxTotal > 0) maxTotal * 0.015f else 1f   // 1.5% of tallest
+
         val barEntries = days.mapIndexed { index, day ->
-            BarEntry(index.toFloat(), day.total.toFloat())
+            val value = day.total.toFloat().coerceAtLeast(stub)
+            BarEntry(index.toFloat(), value)
         }
+
+        // per-bar color: today (last index) = orange, rest = grey
+        val todayIndex = days.size - 1
+        val perBarColors = days.mapIndexed { index, _ ->
+            if (index == todayIndex) android.graphics.Color.parseColor("#F28C1F")   // orange for today
+            else android.graphics.Color.parseColor("#EFEADD")                      // soft grey for others
+        }
+
         val barSet = BarDataSet(barEntries, "").apply {
-            color = android.graphics.Color.parseColor("#C9C2B5")
+            colors = perBarColors
             setDrawValues(false)
         }
-        binding.barChart.data = BarData(barSet).apply { barWidth = 0.9f }
+        binding.barChart.data = BarData(barSet).apply { barWidth = 0.90f }
 
-        // label only the days that have spending; blank for empty days
-        val labels = days.map { if (it.total > 0) it.label else "" }
-        binding.barChart.xAxis.apply {
-            binding.barChart.xAxis.axisMinimum = -0.5f
-            binding.barChart.xAxis.axisMaximum = days.size - 0.5f
-
-            binding.tvStartDate.text = days.first().label
-            binding.tvEndDate.text = days.last().label
-        }
+        binding.barChart.xAxis.axisMinimum = -0.5f
+        binding.barChart.xAxis.axisMaximum = days.size - 0.5f
+        binding.tvStartDate.text = days.first().label
+        binding.tvEndDate.text = days.last().label
         binding.barChart.setFitBars(true)
 
         val peak = days.maxOfOrNull { it.total } ?: 0.0
@@ -133,6 +145,53 @@ class StatsFragment : Fragment() {
         binding.barChart.invalidate()
         binding.barChart.animateY(600)
     }
+
+    private fun drawMonthBarChart(allExpenses: List<Expense>) {
+        val months = StatsCalculator.last3Months(allExpenses)
+
+        // find the biggest total so we can size the stub relative to it
+        val maxTotal = months.maxOfOrNull { it.total }?.toFloat() ?: 0f
+        val stub = if (maxTotal > 0) maxTotal * 0.02f else 1f   // 2% of tallest bar
+
+        // keep the REAL totals so labels reflect them, not the stub
+        val realTotals = months.map { it.total.toFloat() }
+
+        val barEntries = months.mapIndexed { index, month ->
+            val value = month.total.toFloat().coerceAtLeast(stub)
+            BarEntry(index.toFloat(), value)
+        }
+        val barSet = BarDataSet(barEntries, "").apply {
+            color = android.graphics.Color.parseColor("#1F1F1F")   // dark bars like reference
+            setDrawValues(true)                                    // show "206k" above bars
+            valueTextColor = android.graphics.Color.parseColor("#9A9387")
+            valueTextSize = 11f
+            // label uses the REAL total, not the stubbed bar value
+            valueFormatter = object : com.github.mikephil.charting.formatter.ValueFormatter() {
+                override fun getBarLabel(entry: com.github.mikephil.charting.data.BarEntry): String {
+                    val index = entry.x.toInt()
+                    val real = realTotals.getOrNull(index) ?: 0f
+                    return when {
+                        real <= 0f -> ""
+                        real >= 1000 -> "${(real / 1000).toInt()}k"
+                        else -> real.toInt().toString()
+                    }
+                }
+            }
+        }
+
+        binding.monthBarChart.data = BarData(barSet).apply { barWidth = 0.7f }
+
+        // month names on x-axis
+        val labels = months.map { it.label }
+        binding.monthBarChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        binding.monthBarChart.xAxis.axisMinimum = -0.5f
+        binding.monthBarChart.xAxis.axisMaximum = months.size - 0.5f
+        binding.monthBarChart.setFitBars(true)
+
+        binding.monthBarChart.invalidate()
+        binding.monthBarChart.animateY(600)
+    }
+
     // dark = selected, plain = not
     private fun updatePillLook() {
         val unselected = android.graphics.Color.parseColor("#9A9387")
@@ -140,14 +199,15 @@ class StatsFragment : Fragment() {
             binding.pill7Days.setTextColor(android.graphics.Color.WHITE)
             binding.pill7Days.setBackgroundResource(R.drawable.bg_pill_selected)
             binding.pillMonth.setTextColor(unselected)
-            binding.pillMonth.setBackgroundResource(R.drawable.bg_legend_pill)
+            binding.pillMonth.setBackgroundResource(android.R.color.transparent)
         } else {
             binding.pillMonth.setTextColor(android.graphics.Color.WHITE)
             binding.pillMonth.setBackgroundResource(R.drawable.bg_pill_selected)
             binding.pill7Days.setTextColor(unselected)
-            binding.pill7Days.setBackgroundResource(R.drawable.bg_legend_pill)
+            binding.pill7Days.setBackgroundResource(android.R.color.transparent)
         }
     }
+
     private fun setupPieChart() {
         binding.pieChart.apply {
             description.isEnabled = false
@@ -158,9 +218,9 @@ class StatsFragment : Fragment() {
             setHoleColor(android.graphics.Color.TRANSPARENT)
             setEntryLabelColor(android.graphics.Color.TRANSPARENT)
             setCenterTextSize(16f)
-
         }
     }
+
     private fun setupBarChart() {
         binding.barChart.apply {
             description.isEnabled = false
@@ -173,14 +233,38 @@ class StatsFragment : Fragment() {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.granularity = 1f
             xAxis.setDrawGridLines(false)
-            xAxis.setDrawAxisLine(true)
-            xAxis.axisLineColor = android.graphics.Color.parseColor("#E5DED2")
-            xAxis.axisLineWidth = 1f
+            xAxis.setDrawAxisLine(false)
             xAxis.setDrawLabels(false)        // keep labels off (we use our own date TextViews)
             xAxis.textColor = android.graphics.Color.parseColor("#9A9387")
             xAxis.textSize = 9f
             setExtraBottomOffset(10f)
             xAxis.setDrawLabels(false)
+            renderer = com.et.expensetrackorapp.viewmodel.RoundedBarChartRenderer(
+                this,
+                animator,
+                viewPortHandler,
+                resources.displayMetrics.density * 3f   // 6dp radius
+            )
+        }
+    }
+
+    private fun setupMonthBarChart() {
+        binding.monthBarChart.apply {
+            description.isEnabled = false
+            legend.isEnabled = false
+            setScaleEnabled(false)
+            setTouchEnabled(false)
+            axisLeft.isEnabled = false
+            axisRight.isEnabled = false
+            axisLeft.axisMinimum = 0f
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.setDrawGridLines(false)
+            xAxis.setDrawAxisLine(false)          // no baseline for this one
+            xAxis.textColor = android.graphics.Color.parseColor("#9A9387")
+            xAxis.textSize = 11f
+            xAxis.granularity = 1f
+            setExtraBottomOffset(8f)
+            setExtraTopOffset(20f)                // room for the "206k" labels above bars
         }
     }
 
@@ -227,6 +311,48 @@ class StatsFragment : Fragment() {
             pill.addView(dot)
             pill.addView(label)
             strip.addView(pill)
+        }
+    }
+
+    private fun buildCategoryList(stats: List<com.et.expensetrackorapp.viewmodel.CategoryStat>) {
+        val list = binding.categoryList
+        list.removeAllViews()
+
+        for (stat in stats) {
+            val row = layoutInflater.inflate(R.layout.item_category_stat, list, false)
+
+            val dot = row.findViewById<View>(R.id.dot)
+            val name = row.findViewById<android.widget.TextView>(R.id.tvCategoryName)
+            val amount = row.findViewById<android.widget.TextView>(R.id.tvAmount)
+            val percent = row.findViewById<android.widget.TextView>(R.id.tvPercent)
+
+            // colored dot — same color as the ring arc
+            val circle = android.graphics.drawable.GradientDrawable().apply {
+                shape = android.graphics.drawable.GradientDrawable.OVAL
+                setColor(CategoryColors.colorFor(stat.category))
+            }
+            dot.background = circle
+
+            name.text = stat.category
+            amount.text = "Rs. " + "%,.0f".format(stat.total)
+            percent.text = "${stat.percent}%"
+
+            val fill = row.findViewById<View>(R.id.progressFill)
+            val track = row.findViewById<View>(R.id.progressTrack)
+
+            // rounded pill fill in the category color
+            val fillDrawable = android.graphics.drawable.GradientDrawable().apply {
+                shape = android.graphics.drawable.GradientDrawable.RECTANGLE
+                setColor(CategoryColors.colorFor(stat.category))
+                cornerRadius = 6f * resources.displayMetrics.density
+            }
+            fill.background = fillDrawable
+
+            val fillWeight = stat.percent.toFloat().coerceIn(0f, 100f)
+            (fill.layoutParams as android.widget.LinearLayout.LayoutParams).weight = fillWeight
+            (track.layoutParams as android.widget.LinearLayout.LayoutParams).weight = 100f - fillWeight
+
+            list.addView(row)
         }
     }
 

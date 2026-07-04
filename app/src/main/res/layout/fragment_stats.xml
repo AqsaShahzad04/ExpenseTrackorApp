@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cream">
@@ -8,7 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="96dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,16 +24,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/fraunces_bold"
             android:text="Where it went"
             android:textColor="@color/black"
             android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@drawable/bg_pill_track"
+            android:padding="4dp"
             android:layout_marginBottom="12dp">
 
             <TextView
@@ -41,8 +47,7 @@
                 android:textSize="14sp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_legend_pill"
+                android:background="@android:color/transparent"
                 android:textColor="@color/nav_inactive" />
 
             <TextView
@@ -53,7 +58,7 @@
                 android:textSize="14sp"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:background="@drawable/bg_legend_pill"
+                android:background="@android:color/transparent"
                 android:textColor="@color/nav_inactive" />
         </LinearLayout>
 
@@ -78,6 +83,7 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/white"
+            app:strokeWidth="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
 
             <LinearLayout
@@ -138,6 +144,7 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/white"
+            app:strokeWidth="0dp"
             xmlns:app="http://schemas.android.com/apk/res-auto">
 
             <LinearLayout
@@ -202,6 +209,74 @@
                         android:textSize="11sp"
                         android:gravity="end" />
                 </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <!-- By-category card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="By category"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/categoryList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Month over month card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/white"
+            app:strokeWidth="0dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Month over month"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/fraunces"
+                    android:layout_marginBottom="12dp" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/monthBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
