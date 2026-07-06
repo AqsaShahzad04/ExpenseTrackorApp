@@ -1,205 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F1E8">
+    android:orientation="vertical"
+    android:background="#F1EADF">
 
-    <LinearLayout
+    <!-- FIXED HEADER: back arrow + centered title (stays pinned) -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="MONTHLY BUDGET"
-            android:textColor="#9A8F7E"
-            android:textSize="12sp"
-            android:letterSpacing="0.08" />
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp">
 
         <TextView
-            android:id="@+id/textBudgetMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="June 2026"
-            android:textColor="#1A1612"
-            android:textSize="26sp"
-            android:fontFamily="@font/fraunces_bold"
-            android:layout_marginTop="2dp" />
-
-        <!-- Over-budget banner -->
-        <TextView
-            android:id="@+id/textOverBudgetBanner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:padding="13dp"
-            android:background="@drawable/bg_banner"
-            android:text="⚠  You are over budget this month"
-            android:textColor="@color/danger"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start|center_vertical"
             android:gravity="center"
-            android:visibility="gone" />
+            android:text="‹"
+            android:textColor="#1A1612"
+            android:textSize="30sp"
+            android:background="@drawable/bg_currency_symbol_tile" />
 
-        <!-- Main card: ring + spent/remaining + limit row -->
-        <com.google.android.material.card.MaterialCardView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Budget"
+            android:textColor="#1A1612"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- SCROLLING CONTENT -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            app:cardCornerRadius="22dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FBF8F2">
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="120dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MONTHLY BUDGET"
+                android:textColor="#9A8F7E"
+                android:textSize="12sp"
+                android:letterSpacing="0.08" />
+
+            <TextView
+                android:id="@+id/textBudgetMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="June 2026"
+                android:textColor="#1A1612"
+                android:textSize="26sp"
+                android:fontFamily="@font/fraunces_bold"
+                android:layout_marginTop="2dp" />
+
+            <!-- Over-budget banner -->
+            <TextView
+                android:id="@+id/textOverBudgetBanner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24dp">
+                android:layout_marginTop="18dp"
+                android:padding="13dp"
+                android:background="@drawable/bg_banner"
+                android:text="⚠  You are over budget this month"
+                android:textColor="@color/danger"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone" />
 
-                <!-- Ring with centered % -->
-                <FrameLayout
+            <!-- Main card: ring + spent/remaining + limit row -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFDFA">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp">
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-                    <ProgressBar
-                        android:id="@+id/budgetRing"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="200dp"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center"
-                        android:indeterminate="false"
-                        android:max="100"
-                        android:progress="0"
-                        android:progressDrawable="@drawable/budget_ring" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <!-- Ring with centered % -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <ProgressBar
+                            android:id="@+id/budgetRing"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="0"
+                            android:progressDrawable="@drawable/budget_ring" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="bottom">
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:gravity="center">
 
-                            <TextView
-                                android:id="@+id/textBudgetPercent"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="#1A1612"
-                                android:textSize="44sp"
-                                android:fontFamily="@font/fraunces_bold" />
+                                android:orientation="horizontal"
+                                android:gravity="bottom">
+
+                                <TextView
+                                    android:id="@+id/textBudgetPercent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="#1A1612"
+                                    android:textSize="44sp"
+                                    android:fontFamily="@font/fraunces_bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="%"
+                                    android:textColor="#1A1612"
+                                    android:textSize="20sp"
+                                    android:layout_marginBottom="8dp" />
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="%"
-                                android:textColor="#1A1612"
-                                android:textSize="20sp"
-                                android:layout_marginBottom="8dp" />
+                                android:text="OF BUDGET"
+                                android:textColor="#9A8F7E"
+                                android:textSize="11sp"
+                                android:letterSpacing="0.08" />
                         </LinearLayout>
+                    </FrameLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="OF BUDGET"
-                            android:textColor="#9A8F7E"
-                            android:textSize="11sp"
-                            android:letterSpacing="0.08" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <!-- SPENT / REMAINING -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="SPENT"
-                            android:textColor="#9A8F7E"
-                            android:textSize="11sp"
-                            android:letterSpacing="0.06" />
-
-                        <TextView
-                            android:id="@+id/textBudgetSpent"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rs. 0"
-                            android:textColor="#C0461F"
-                            android:textSize="19sp"
-                            android:textStyle="bold"
-                            android:layout_marginTop="3dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="REMAINING"
-                            android:textColor="#9A8F7E"
-                            android:textSize="11sp"
-                            android:letterSpacing="0.06" />
-
-                        <TextView
-                            android:id="@+id/textBudgetRemaining"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rs. 0"
-                            android:textColor="#D9822B"
-                            android:textSize="19sp"
-                            android:textStyle="bold"
-                            android:layout_marginTop="3dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Monthly limit / Update row -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardMonthlyLimit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#EFE7DA">
-
+                    <!-- SPENT / REMAINING -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🗓"
-                            android:textSize="18sp"
-                            android:layout_marginEnd="12dp" />
+                        android:layout_marginTop="20dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -210,116 +174,194 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Monthly limit"
+                                android:text="SPENT"
                                 android:textColor="#9A8F7E"
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                android:letterSpacing="0.06" />
 
                             <TextView
-                                android:id="@+id/textMonthlyLimit"
+                                android:id="@+id/textBudgetSpent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Rs. 0"
-                                android:textColor="#2B2620"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textColor="#C0461F"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="3dp" />
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/btnUpdateBudget"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Update"
-                            android:textColor="#1A1612"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:padding="6dp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="REMAINING"
+                                android:textColor="#9A8F7E"
+                                android:textSize="11sp"
+                                android:letterSpacing="0.06" />
+
+                            <TextView
+                                android:id="@+id/textBudgetRemaining"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rs. 0"
+                                android:textColor="#D9822B"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="3dp" />
+                        </LinearLayout>
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <!-- Monthly limit / Update row -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardMonthlyLimit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="1dp"
+                        app:strokeWidth="0dp"
+                        app:cardBackgroundColor="#EFE7DA">
 
-        <!-- Pacing card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="18dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#FBF8F2">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:padding="16dp">
 
-            <LinearLayout
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_budget"
+                                android:layout_marginEnd="12dp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Monthly limit"
+                                    android:textColor="#9A8F7E"
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/textMonthlyLimit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Rs. 0"
+                                    android:textColor="#2B2620"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/btnUpdateBudget"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Update"
+                                android:textColor="#1A1612"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:padding="6dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Pacing card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pacing"
-                    android:textColor="#1A1612"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFDFA">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:orientation="vertical"
+                    android:padding="18dp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textPacingLabel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="By day 23 of 30, expected"
-                            android:textColor="#9A8F7E"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textPacingExpected"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rs. 0"
-                            android:textColor="#1A1612"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginTop="2dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="end">
+                        android:text="Pacing"
+                        android:textColor="#1A1612"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/textPacingStatus"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textPacingLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="By day 23 of 30, expected"
+                                android:textColor="#9A8F7E"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/textPacingExpected"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rs. 0"
+                                android:textColor="#1A1612"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Under pace"
-                            android:textColor="#9A8F7E"
-                            android:textSize="12sp" />
+                            android:orientation="vertical"
+                            android:gravity="end">
 
-                        <TextView
-                            android:id="@+id/textPacingDelta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rs. 0"
-                            android:textColor="#D9822B"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginTop="2dp" />
+                            <TextView
+                                android:id="@+id/textPacingStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Under pace"
+                                android:textColor="#9A8F7E"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/textPacingDelta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rs. 0"
+                                android:textColor="#D9822B"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import com.et.expensetrackorapp.data.local.AppDatabase
 import com.et.expensetrackorapp.data.repository.BudgetRepository
@@ -76,7 +77,7 @@ class BudgetFragment: Fragment() {
                     if (budget != null) {
                         binding.textMonthlyLimit.text = "Rs. ${"%,.0f".format(budget.amount)}"
 
-                        val remaining = budget.amount - spentThisMonth
+                        val remaining = (budget.amount - spentThisMonth).coerceAtLeast(0.0)
                         val percent = if (budget.amount > 0)
                             (spentThisMonth / budget.amount * 100).toInt()
                         else 0
@@ -127,6 +128,9 @@ class BudgetFragment: Fragment() {
         }
         binding.btnUpdateBudget.setOnClickListener {
             UpdateBudgetFragment().show(parentFragmentManager, "UpdateBudgetSheet")
+        }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 }

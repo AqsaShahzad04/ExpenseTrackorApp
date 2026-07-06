@@ -9,4 +9,13 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="RoundedBottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundedBottomSheetModal</item>
+    </style>
+
+    <style name="RoundedBottomSheetModal" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">@color/cream</item>
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
 </resources>
