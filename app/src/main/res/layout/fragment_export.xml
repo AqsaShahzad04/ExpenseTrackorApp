@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="24dp">
+
+    <!-- Title row: "Export expenses" + ✕ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Export expenses"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:fontFamily="@font/fraunces_bold" />
+
+        <TextView
+            android:id="@+id/btnClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="✕"
+            android:textColor="@color/nav_inactive"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@drawable/bg_close_circle" />
+    </LinearLayout>
+
+    <!-- DATE RANGE label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DATE RANGE"
+        android:textColor="@color/nav_inactive"
+        android:textSize="11sp"
+        android:letterSpacing="0.08"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Scrollable row of range pills -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/rangeContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <!-- FORMAT label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FORMAT"
+        android:textColor="@color/nav_inactive"
+        android:textSize="11sp"
+        android:letterSpacing="0.08"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Two format cards side by side -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="18dp">
+
+        <!-- CSV card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCsv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#E6DFD2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CSV"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/fraunces_bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Spreadsheet"
+                    android:textColor="@color/nav_inactive"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- PDF card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardPdf"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="#E6DFD2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PDF"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/fraunces_bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Printable report"
+                    android:textColor="@color/nav_inactive"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Summary box -->
+    <LinearLayout
+        android:id="@+id/summaryBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_summary_box"
+        android:padding="16dp"
+        android:layout_marginBottom="18dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/summaryCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 transactions"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/summaryRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This month"
+                android:textColor="@color/nav_inactive"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/summaryTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rs. 0"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:fontFamily="@font/fraunces_bold" />
+    </LinearLayout>
+
+    <!-- Export button -->
+    <TextView
+        android:id="@+id/btnExport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Export PDF"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:background="@color/black" />
+
+</LinearLayout>

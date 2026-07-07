@@ -26,11 +26,12 @@ import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.flow.first
 
 data class Currency(
-    val name: String,     // "Pakistani Rupee"
-    val code: String,     // "PKR"
-    val symbol: String    // "Rs."
+    val name: String,
+    val code: String,
+    val symbol: String
 )
 
 class SettingsFragment : Fragment() {
@@ -48,6 +49,8 @@ class SettingsFragment : Fragment() {
         val repository = ExpenseRepository(dao)
         ExpenseViewModelFactory(repository)
     }
+    // keeps the current transaction count live, so the delete sheet can show it
+    private var currentTxnCount = 0
 
     private val currencies = listOf(
         Currency("Pakistani Rupee", "PKR", "Rs."),
@@ -84,6 +87,25 @@ class SettingsFragment : Fragment() {
             binding.currencyContainer
                 .findViewById<TextView>(R.id.rowValue)
                 ?.text = newCurrency
+        }
+        // keep the live transaction count updated
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                expenseViewModel.allExpenses.collect { expenses ->
+                    currentTxnCount = expenses.size
+                }
+            }
+        }
+
+        // listen for the delete-all confirmation from the bottom sheet
+        parentFragmentManager.setFragmentResultListener(
+            "delete_all_result",
+            viewLifecycleOwner
+        ) { _, bundle ->
+            if (bundle.getBoolean("confirmed")) {
+                expenseViewModel.deleteAll()
+                Toast.makeText(requireContext(), "All transactions deleted", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -157,7 +179,7 @@ class SettingsFragment : Fragment() {
         exportRow.findViewById<TextView>(R.id.rowLabel).text = "Export PDF report"
         exportRow.findViewById<TextView>(R.id.rowValue).text = ""
         exportRow.setOnClickListener {
-            Toast.makeText(requireContext(), "PDF export coming soon", Toast.LENGTH_SHORT).show()
+            exportPdf()
         }
         binding.dataContainer.addView(exportRow)
 
@@ -178,16 +200,13 @@ class SettingsFragment : Fragment() {
         binding.dataContainer.addView(deleteRow)
     }
 
+    private fun exportPdf() {
+        ExportFragment().show(parentFragmentManager, "export")
+    }
+
     private fun confirmDeleteAll() {
-        androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle("Delete all transactions?")
-            .setMessage("This permanently deletes every expense. This cannot be undone.")
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Delete") { _, _ ->
-                expenseViewModel.deleteAll()
-                Toast.makeText(requireContext(), "All transactions deleted", Toast.LENGTH_SHORT).show()
-            }
-            .show()
+        DeleteConfirmFragment.newInstance(currentTxnCount)
+            .show(parentFragmentManager, "delete_confirm")
     }
 
     private fun showCurrencyPicker() {
