@@ -376,12 +376,23 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerExpenses"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:layout_marginBottom="94dp"
+                app:cardCornerRadius="18dp"
+                app:cardBackgroundColor="#FFFCF5"
+                app:cardElevation="1dp"
+                app:strokeColor="#E0D7C8"
+                app:strokeWidth="1dp">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerExpenses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

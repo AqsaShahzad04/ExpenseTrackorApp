@@ -117,7 +117,7 @@ class SettingsFragment : Fragment() {
         val currency = prefs.getString("currency", "Pakistani Rupee (Rs.)")
 
         val row = layoutInflater.inflate(
-            R.layout.item_setting_row,
+            R.layout.item_setting_row_plain,
             binding.currencyContainer,
             false
         )
@@ -142,7 +142,7 @@ class SettingsFragment : Fragment() {
                     binding.budgetContainer.removeAllViews()
 
                     val row = layoutInflater.inflate(
-                        R.layout.item_setting_row,
+                        R.layout.item_setting_row_plain,
                         binding.budgetContainer,
                         false
                     )
@@ -172,7 +172,7 @@ class SettingsFragment : Fragment() {
 
         // --- Row 1: Export PDF report ---
         val exportRow = layoutInflater.inflate(
-            R.layout.item_setting_row, binding.dataContainer, false
+            R.layout.item_setting_row_plain, binding.dataContainer, false
         )
         exportRow.findViewById<ImageView>(R.id.rowIcon).apply {
             visibility = View.VISIBLE
@@ -184,10 +184,11 @@ class SettingsFragment : Fragment() {
             exportPdf()
         }
         binding.dataContainer.addView(exportRow)
+        binding.dataContainer.addView(makeDivider())
 
         // --- Row 2: Delete all transactions (red) ---
         val deleteRow = layoutInflater.inflate(
-            R.layout.item_setting_row, binding.dataContainer, false
+            R.layout.item_setting_row_plain, binding.dataContainer, false
         )
         deleteRow.findViewById<ImageView>(R.id.rowIcon).apply {
             visibility = View.VISIBLE
@@ -207,20 +208,36 @@ class SettingsFragment : Fragment() {
         binding.aboutContainer.removeAllViews()
 
         val versionRow = layoutInflater.inflate(
-            R.layout.item_setting_row, binding.aboutContainer, false
+            R.layout.item_setting_row_plain, binding.aboutContainer, false
         )
         versionRow.findViewById<TextView>(R.id.rowLabel).text = "Version"
         versionRow.findViewById<TextView>(R.id.rowValue).text = "1.0.0 - prototype"
         versionRow.findViewById<TextView>(R.id.rowChevron).visibility = View.GONE
         binding.aboutContainer.addView(versionRow)
+        binding.aboutContainer.addView(makeDivider())
 
         val sampleRow = layoutInflater.inflate(
-            R.layout.item_setting_row, binding.aboutContainer, false
+            R.layout.item_setting_row_plain, binding.aboutContainer, false
         )
         sampleRow.findViewById<TextView>(R.id.rowLabel).text = "Sample data"
         sampleRow.findViewById<TextView>(R.id.rowValue).text = "$currentTxnCount txns"
         sampleRow.findViewById<TextView>(R.id.rowChevron).visibility = View.GONE
         binding.aboutContainer.addView(sampleRow)
+    }
+
+    // a thin 1dp divider matching the row look, inset to align with labels
+    private fun makeDivider(): View {
+        val divider = View(requireContext())
+        val density = resources.displayMetrics.density
+        val lp = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            (1 * density).toInt()
+        )
+        val side = (16 * density).toInt()
+        lp.setMargins(side, 0, side, 0)
+        divider.layoutParams = lp
+        divider.setBackgroundColor(android.graphics.Color.parseColor("#E0D7C8"))
+        return divider
     }
 
     private fun exportPdf() {

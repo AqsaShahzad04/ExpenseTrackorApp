@@ -20,4 +20,10 @@ object CategoryColors {
     // Fallback color for any category not in the map
     fun colorFor(category: String): Int =
         map[category] ?: Color.parseColor("#676766")
+
+    // Lightest tint of the category color — same hue, low alpha. Used for the icon circle bg.
+    fun lightBgFor(category: String): Int {
+        val base = colorFor(category)
+        return Color.argb(38, Color.red(base), Color.green(base), Color.blue(base))
+    }
 }

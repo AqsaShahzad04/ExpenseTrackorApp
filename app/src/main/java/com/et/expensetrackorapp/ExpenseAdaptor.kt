@@ -1,10 +1,11 @@
 package com.et.expensetrackorapp
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.et.expensetrackorapp.data.local.Expense
-import com.et.expensetrackorapp.databinding.ItemExpenseBinding
+import com.et.expensetrackorapp.databinding.ItemExpenseRowBinding
 import com.et.expensetrackorapp.viewmodel.CategoryColors
 import com.et.expensetrackorapp.viewmodel.CategoryIcons
 
@@ -14,14 +15,14 @@ class ExpenseAdaptor(
 ) : RecyclerView.Adapter<ExpenseAdaptor.ExpenseViewHolder>() {
 
     inner class ExpenseViewHolder(
-        val binding: ItemExpenseBinding
+        val binding: ItemExpenseRowBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ExpenseViewHolder {
-        val binding = ItemExpenseBinding.inflate(
+        val binding = ItemExpenseRowBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -33,9 +34,11 @@ class ExpenseAdaptor(
         val expense = expenseList[position]
         holder.binding.imageIcon.setImageResource(CategoryIcons.iconFor(expense.category))
         holder.binding.imageIcon.setColorFilter(CategoryColors.colorFor(expense.category))
+        holder.binding.iconCircle.backgroundTintList =
+            ColorStateList.valueOf(CategoryColors.lightBgFor(expense.category))
         holder.binding.textTitle.text = expense.title
         holder.binding.textCategory.text = "${expense.category} · ${expense.date}"
-        holder.binding.textAmount.text = "- Rs. ${expense.amount}"
+        holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(expense.amount)}"
         holder.itemView.setOnClickListener { onItemClick() }
     }
 

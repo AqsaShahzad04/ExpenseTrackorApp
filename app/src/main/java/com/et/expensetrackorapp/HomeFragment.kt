@@ -72,6 +72,12 @@ class HomeFragment: Fragment() {
 
         binding.recyclerExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerExpenses.adapter = adapter
+        val divider = androidx.recyclerview.widget.DividerItemDecoration(
+            requireContext(), LinearLayoutManager.VERTICAL
+        )
+        androidx.core.content.ContextCompat.getDrawable(requireContext(), R.drawable.divider_row)
+            ?.let { divider.setDrawable(it) }
+        binding.recyclerExpenses.addItemDecoration(divider)
 
         val currentMonth = java.text.SimpleDateFormat("yyyy-MM", java.util.Locale.getDefault())
             .format(java.util.Date())
