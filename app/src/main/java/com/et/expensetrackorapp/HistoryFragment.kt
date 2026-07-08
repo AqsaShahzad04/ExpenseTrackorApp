@@ -67,19 +67,11 @@ class HistoryFragment : Fragment() {
         }
 
     }
-    private fun groupByDate(expenses: List<Expense>): List<HistoryItem> {
-        val result = mutableListOf<HistoryItem>()
-
-        // group expenses by their date string, newest date first
+    private fun groupByDate(expenses: List<Expense>): List<HistoryGroup> {
         val grouped = expenses.groupBy { it.date }.toSortedMap(reverseOrder())
-
-        for ((date, list) in grouped) {
-            result.add(HistoryItem.Header(formatDateLabel(date)))
-            for (expense in list) {
-                result.add(HistoryItem.ExpenseRow(expense))
-            }
+        return grouped.map { (date, list) ->
+            HistoryGroup(formatDateLabel(date), list)
         }
-        return result
     }
     private fun showFiltered(query: String) {
         val filtered = if (query.isBlank()) {

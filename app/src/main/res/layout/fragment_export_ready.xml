@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="24dp">
+
+    <!-- Title row: "Export ready" + ✕ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Export ready"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:fontFamily="@font/fraunces_bold" />
+
+        <TextView
+            android:id="@+id/btnClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="✕"
+            android:textColor="@color/nav_inactive"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@drawable/bg_close_circle" />
+    </LinearLayout>
+
+    <!-- Orange rounded icon tile with download arrow -->
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_download_tile">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_download"
+            app:tint="@color/accent" />
+    </FrameLayout>
+
+    <!-- "CSV downloaded" -->
+    <TextView
+        android:id="@+id/textDownloaded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CSV downloaded"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <!-- "8 transactions · This month" -->
+    <TextView
+        android:id="@+id/textSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 transactions · This month"
+        android:gravity="center"
+        android:textColor="@color/nav_inactive"
+        android:textSize="13sp"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Dark full-width Done button -->
+    <TextView
+        android:id="@+id/btnDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:background="@drawable/bg_btn_dark" />
+
+</LinearLayout>

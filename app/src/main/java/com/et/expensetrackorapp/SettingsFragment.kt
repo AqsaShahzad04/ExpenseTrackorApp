@@ -76,6 +76,7 @@ class SettingsFragment : Fragment() {
         buildCurrencyRow()
         buildBudgetRow()
         buildDataRows()
+        buildAboutRows()
 
         // listen for the currency the picker sends back
         parentFragmentManager.setFragmentResultListener(
@@ -93,6 +94,7 @@ class SettingsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 expenseViewModel.allExpenses.collect { expenses ->
                     currentTxnCount = expenses.size
+                    buildAboutRows()
                 }
             }
         }
@@ -198,6 +200,27 @@ class SettingsFragment : Fragment() {
         deleteRow.findViewById<TextView>(R.id.rowValue).text = ""
         deleteRow.setOnClickListener { confirmDeleteAll() }
         binding.dataContainer.addView(deleteRow)
+    }
+
+
+    private fun buildAboutRows() {
+        binding.aboutContainer.removeAllViews()
+
+        val versionRow = layoutInflater.inflate(
+            R.layout.item_setting_row, binding.aboutContainer, false
+        )
+        versionRow.findViewById<TextView>(R.id.rowLabel).text = "Version"
+        versionRow.findViewById<TextView>(R.id.rowValue).text = "1.0.0 - prototype"
+        versionRow.findViewById<TextView>(R.id.rowChevron).visibility = View.GONE
+        binding.aboutContainer.addView(versionRow)
+
+        val sampleRow = layoutInflater.inflate(
+            R.layout.item_setting_row, binding.aboutContainer, false
+        )
+        sampleRow.findViewById<TextView>(R.id.rowLabel).text = "Sample data"
+        sampleRow.findViewById<TextView>(R.id.rowValue).text = "$currentTxnCount txns"
+        sampleRow.findViewById<TextView>(R.id.rowChevron).visibility = View.GONE
+        binding.aboutContainer.addView(sampleRow)
     }
 
     private fun exportPdf() {

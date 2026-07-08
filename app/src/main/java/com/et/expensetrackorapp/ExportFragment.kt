@@ -23,6 +23,11 @@ import com.et.expensetrackorapp.data.local.Expense
 import com.et.expensetrackorapp.data.repository.ExpenseRepository
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
+import com.et.expensetrackorapp.data.repository.BudgetRepository
+import com.et.expensetrackorapp.viewmodel.BudgetViewModel
+import com.et.expensetrackorapp.viewmodel.BudgetViewModelFactory
+import android.content.Intent
+import androidx.core.content.FileProvider
 
 class ExportFragment : BottomSheetDialogFragment() {
 
@@ -39,13 +44,24 @@ class ExportFragment : BottomSheetDialogFragment() {
 
     // which range is currently picked (default: this month)
     private var selectedRange = DateRange.THIS_MONTH
+
+    private var justExported = false
+    private var exportedCount = 0
+    // which format is picked (default: PDF)
+    private var selectedFormat = "PDF"
     private val expenseViewModel: ExpenseViewModel by viewModels {
         val dao = AppDatabase.getDatabase(requireContext()).expenseDao()
         ExpenseViewModelFactory(ExpenseRepository(dao))
     }
 
+    private val budgetViewModel: BudgetViewModel by viewModels {
+        val dao = AppDatabase.getDatabase(requireContext()).budgetDao()
+        BudgetViewModelFactory(BudgetRepository(dao))
+    }
+
     // all expenses, kept fresh; summary filters from this
     private var allExpenses: List<Expense> = emptyList()
+    private var currentBudget: Double? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +78,25 @@ class ExportFragment : BottomSheetDialogFragment() {
         binding.btnClose.setOnClickListener { dismiss() }
 
         buildRangePills()
+        styleFormatCards()   // set initial PDF-selected look
+
+        binding.cardPdf.setOnClickListener {
+            selectedFormat = "PDF"
+            styleFormatCards()
+        }
+        binding.cardCsv.setOnClickListener {
+            selectedFormat = "CSV"
+            styleFormatCards()
+        }
+        binding.btnExport.setOnClickListener {
+            if (selectedFormat == "PDF") {
+                exportPdf()
+            }
+            else{
+                exportCsv()
+            }
+
+        }
 
     }
     private fun buildRangePills() {
@@ -91,11 +126,7 @@ class ExportFragment : BottomSheetDialogFragment() {
                 setOnClickListener {
                     selectedRange = range
                     styleRangePills()
-                    setOnClickListener {
-                        selectedRange = range
-                        styleRangePills()
-                        updateSummary()
-                    }// restyle so only this one looks selected
+                    updateSummary()
                 }
             }
             binding.rangeContainer.addView(pill)
@@ -109,7 +140,14 @@ class ExportFragment : BottomSheetDialogFragment() {
                 }
             }
         }
-
+        val monthKey = SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(Date())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                budgetViewModel.getBudgetForMonth(monthKey).collect { budget ->
+                    currentBudget = budget?.amount
+                }
+            }
+        }
         styleRangePills()   // set the initial selected look
     }
 
@@ -161,12 +199,68 @@ class ExportFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun styleFormatCards() {
+        if (selectedFormat == "PDF") {
+            binding.cardPdf.setBackgroundResource(R.drawable.bg_card_selected)
+            binding.cardCsv.setBackgroundResource(0)
+        } else {
+            binding.cardCsv.setBackgroundResource(R.drawable.bg_card_selected)
+            binding.cardPdf.setBackgroundResource(0)
+        }
+        binding.btnExport.text = "Export $selectedFormat"
+    }
+
 
     override fun getTheme(): Int = R.style.RoundedBottomSheet
+    private fun exportPdf() {
+        val list = filteredExpenses()
+        val monthLabel = SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
+        val file = PdfReportBuilder.buildPdf(requireContext(), list, currentBudget, monthLabel)
+
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "com.et.expensetrackorapp.fileprovider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/pdf")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        justExported = true
+        exportedCount = list.size
+        startActivity(intent)
+    }
+    private fun exportCsv() {
+        val list = filteredExpenses()
+        val file = CsvReportBuilder.buildCsv(requireContext(), list)
+
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "com.et.expensetrackorapp.fileprovider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "text/csv")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        justExported = true
+        exportedCount = list.size
+        startActivity(intent)
+    }
 
     override fun onStart() {
         super.onStart()
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+    override fun onResume() {
+        super.onResume()
+        if (justExported) {
+            justExported = false
+            ExportReadyFragment
+                .newInstance(selectedFormat, exportedCount, selectedRange.label)
+                .show(parentFragmentManager, "export_ready")
+            dismiss()
+        }
     }
 
     override fun onDestroyView() {
