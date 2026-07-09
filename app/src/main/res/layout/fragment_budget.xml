@@ -68,20 +68,7 @@
                 android:fontFamily="@font/fraunces_bold"
                 android:layout_marginTop="2dp" />
 
-            <!-- Over-budget banner -->
-            <TextView
-                android:id="@+id/textOverBudgetBanner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:padding="13dp"
-                android:background="@drawable/bg_banner"
-                android:text="⚠  You are over budget this month"
-                android:textColor="@color/danger"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:visibility="gone" />
+
 
             <!-- Main card: ring + spent/remaining + limit row -->
             <com.google.android.material.card.MaterialCardView
@@ -185,8 +172,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Rs. 0"
                                 android:textColor="#C0461F"
-                                android:textSize="19sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/fraunces"
                                 android:layout_marginTop="3dp" />
                         </LinearLayout>
 
@@ -197,6 +185,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/textRemainingLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="REMAINING"
@@ -210,8 +199,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="Rs. 0"
                                 android:textColor="#D9822B"
-                                android:textSize="19sp"
+                                android:textSize="17sp"
                                 android:textStyle="bold"
+                                android:fontFamily="@font/fraunces_bold"
                                 android:layout_marginTop="3dp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -238,13 +228,15 @@
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_budget"
+                                app:tint="#1A1612"
                                 android:layout_marginEnd="12dp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                app:cardBackgroundColor="#E8E6E1">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -277,6 +269,38 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Over-budget banner -->
+            <LinearLayout
+                android:id="@+id/textOverBudgetBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_notif_row_danger"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_bell"
+                    app:tint="#C73E1D" />
+
+                <TextView
+                    android:id="@+id/textOverBudgetMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You're over budget this month."
+                    android:textColor="#C73E1D"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
 
             <!-- Pacing card -->
             <com.google.android.material.card.MaterialCardView

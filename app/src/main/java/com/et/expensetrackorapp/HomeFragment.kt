@@ -26,6 +26,9 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.combine
 import android.widget.LinearLayout
 import com.et.expensetrackorapp.util.CurrencyFormatter
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HomeFragment: Fragment() {
 
@@ -66,17 +69,20 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.monthDisplay.text=SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(Date())
         binding.cardBudget.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_budget)
         }
         binding.textSeeAll.setOnClickListener {
-            findNavController().navigate(R.id.historyFragment)
+            requireActivity()
+                .findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNav)
+                .selectedItemId = R.id.historyFragment
         }
         binding.cardStatistics.setOnClickListener {
-            findNavController().navigate(R.id.statsFragment)
+            requireActivity()
+                .findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNav)
+                .selectedItemId = R.id.statsFragment
         }
-
         binding.btnNotifications.setOnClickListener {
             NotificationsFragment.newInstance(
                 latestSpent,
@@ -151,7 +157,17 @@ class HomeFragment: Fragment() {
 
                         val remaining = budgetAmount - spentThisMonth
                         binding.textRemaining.text =
-                            "${CurrencyFormatter.format(requireContext(), remaining)} left"
+                            if (remaining < 0)
+                                "Over by ${CurrencyFormatter.format(requireContext(), -remaining)}"
+                            else
+                                "${CurrencyFormatter.format(requireContext(), remaining)} left"
+                        val overBudget = spentThisMonth > budgetAmount
+                        binding.bannerOverBudget.visibility =
+                            if (overBudget) View.VISIBLE else View.GONE
+                        binding.viewProgressFill.setBackgroundResource(
+                            if (overBudget) R.drawable.bg_progress_fill_over
+                            else R.drawable.bg_progress_fill
+                        )
 
                         binding.viewProgressFill.layoutParams =
                             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, fraction.toFloat())
@@ -166,6 +182,8 @@ class HomeFragment: Fragment() {
                             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 0f)
                         binding.viewProgressEmpty.layoutParams =
                             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
+                        binding.bannerOverBudget.visibility = View.GONE
+
                     }
                 }
             }

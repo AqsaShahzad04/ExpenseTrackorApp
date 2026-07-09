@@ -25,7 +25,8 @@
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp"
-        app:cardBackgroundColor="@color/cream">
+        app:cardBackgroundColor="@color/cream"
+        app:strokeWidth="0dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"

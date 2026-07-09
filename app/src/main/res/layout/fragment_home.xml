@@ -40,10 +40,11 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/monthDisplay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
-                        android:text="June 2026"
+                        android:fontFamily="@font/fraunces_bold"
+                        android:text=" "
                         android:textColor="#1A1612"
                         android:textSize="22sp"
                         android:textStyle="bold" />
@@ -123,7 +124,7 @@
                             android:textSize="40sp"
                             android:textStyle="bold" />
 
-                        <!-- Progress bar track -->
+
                         <!-- Progress bar: grey track holding an orange fill -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -197,9 +198,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:text="Rs. 3,988"
+                                    android:text="0"
                                     android:textColor="#FFFCF5"
                                     android:textSize="15sp"
+                                    android:fontFamily="@font/fraunces"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -221,8 +223,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:text="14"
+                                    android:text="0"
                                     android:textColor="#FFFCF5"
+                                    android:fontFamily="@font/fraunces"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -245,7 +248,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:text="8"
+                                    android:text="0"
+                                    android:fontFamily="@font/fraunces"
                                     android:textColor="#FFFCF5"
                                     android:textSize="15sp"
                                     android:textStyle="bold" />
@@ -259,6 +263,37 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- OVER-BUDGET BANNER (shown only when over budget) -->
+            <LinearLayout
+                android:id="@+id/bannerOverBudget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_notif_row_danger"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_bell"
+                    app:tint="#C73E1D" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You're over budget this month."
+                    android:textColor="#C73E1D"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
             <!-- ZONE 3: TWO QUICK-ACTION CARDS -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -270,10 +305,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#FFFCF5"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:id="@+id/cardBudget"
@@ -283,12 +320,19 @@
                         android:gravity="center_vertical"
                         android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                        <FrameLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_marginEnd="10dp"
-                            android:src="@drawable/ic_budget"
-                            app:tint="#D9822B" />
+                            android:background="@drawable/bg_action_icon_tile">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_budget"
+                                app:tint="#D9822B" />
+                        </FrameLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -321,10 +365,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#FFFCF5"
                     app:cardCornerRadius="18dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="2dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:id="@+id/cardStatistics"
@@ -334,12 +380,19 @@
                         android:gravity="center_vertical"
                         android:padding="16dp">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                        <FrameLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_marginEnd="10dp"
-                            android:src="@drawable/ic_stats"
-                            app:tint="#D9822B" />
+                            android:background="@drawable/bg_action_icon_tile">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_stats"
+                                app:tint="#D9822B" />
+                        </FrameLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -385,7 +438,9 @@
                     android:text="Recent expenses"
                     android:textColor="#1A1612"
                     android:textSize="19sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/fraunces"
+                    />
 
                 <TextView
                     android:id="@+id/textSeeAll"

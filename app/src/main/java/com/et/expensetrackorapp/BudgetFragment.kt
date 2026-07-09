@@ -78,14 +78,37 @@ class BudgetFragment: Fragment() {
                     if (budget != null) {
                         binding.textMonthlyLimit.text = CurrencyFormatter.format(requireContext(), budget.amount)
 
-                        val remaining = (budget.amount - spentThisMonth).coerceAtLeast(0.0)
+                        val remaining = budget.amount - spentThisMonth
                         val percent = if (budget.amount > 0)
                             (spentThisMonth / budget.amount * 100).toInt()
                         else 0
 
+
+                        binding.budgetRing.progressDrawable =
+                            androidx.core.content.ContextCompat.getDrawable(
+                                requireContext(),
+                                if (spentThisMonth > budget.amount) R.drawable.budget_ring_over
+                                else R.drawable.budget_ring
+                            )?.mutate()
+                        binding.budgetRing.progress = 0
+                        binding.budgetRing.progress = percent.coerceAtMost(100)
+
                         binding.budgetRing.progress = percent.coerceAtMost(100)
                         binding.textBudgetPercent.text = percent.coerceAtMost(100).toString()
-                        binding.textBudgetRemaining.text = CurrencyFormatter.format(requireContext(), remaining)
+
+                        if (remaining < 0) {
+                            binding.textRemainingLabel.text = "OVER BY"
+                            binding.textBudgetRemaining.text =
+                                CurrencyFormatter.format(requireContext(), -remaining)
+                            binding.textBudgetRemaining.setTextColor(
+                                android.graphics.Color.parseColor("#C0461F"))
+                        } else {
+                            binding.textRemainingLabel.text = "REMAINING"
+                            binding.textBudgetRemaining.text =
+                                CurrencyFormatter.format(requireContext(), remaining)
+                            binding.textBudgetRemaining.setTextColor(
+                                android.graphics.Color.parseColor("#D9822B"))
+                        }
 
                         val calendar = java.util.Calendar.getInstance()
                         val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
@@ -107,6 +130,9 @@ class BudgetFragment: Fragment() {
                         }
 
                         if (spentThisMonth > budget.amount) {
+                            val over = spentThisMonth - budget.amount
+                            binding.textOverBudgetMessage.text =
+                                "You're ${CurrencyFormatter.format(requireContext(), over)} over budget. Consider scaling back."
                             binding.textOverBudgetBanner.visibility = View.VISIBLE
                         } else {
                             binding.textOverBudgetBanner.visibility = View.GONE
