@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Header: title + close -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filter &amp; sort"
+            android:textColor="#1A1612"
+            android:textSize="22sp"
+            android:fontFamily="@font/fraunces_bold" />
+
+        <TextView
+            android:id="@+id/btnClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="✕"
+            android:textColor="#7A6F62"
+            android:textSize="16sp"
+            android:background="@drawable/bg_close_circle" />
+
+    </LinearLayout>
+
+    <!-- SORT BY -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="SORT BY"
+        android:textColor="#9A9387"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView android:id="@+id/sortNewest" style="@style/FilterPill" android:text="Newest" />
+            <TextView android:id="@+id/sortOldest" style="@style/FilterPill" android:text="Oldest" />
+            <TextView android:id="@+id/sortHighest" style="@style/FilterPill" android:text="Highest" />
+            <TextView android:id="@+id/sortLowest" style="@style/FilterPill" android:text="Lowest" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!-- DATE RANGE -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="DATE RANGE"
+        android:textColor="#9A9387"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView android:id="@+id/rangeAll" style="@style/FilterPill" android:text="All time" />
+            <TextView android:id="@+id/rangeMonth" style="@style/FilterPill" android:text="This month" />
+            <TextView android:id="@+id/range30" style="@style/FilterPill" android:text="Last 30 days" />
+            <TextView android:id="@+id/range7" style="@style/FilterPill" android:text="Last 7 days" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <!-- CATEGORY -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="CATEGORY"
+        android:textColor="#9A9387"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
+
+    <!-- Category pills, hand-wrapped into rows -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView android:id="@+id/catAll" style="@style/FilterPill" android:text="All" />
+        <TextView android:id="@+id/catFood" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Food &amp; Drink" />
+        <TextView android:id="@+id/catTransport" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Transport" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView android:id="@+id/catHealth" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Health" />
+        <TextView android:id="@+id/catShopping" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Shopping" />
+        <TextView android:id="@+id/catBills" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Bills" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView android:id="@+id/catEntertainment" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Entertainment" />
+        <TextView android:id="@+id/catEducation" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Education" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView android:id="@+id/catCoffee" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Coffee" />
+        <TextView android:id="@+id/catOther" style="@style/FilterPill" android:drawableStart="@drawable/bg_dot" android:drawablePadding="7dp" android:text="Others" />
+
+    </LinearLayout>
+
+    <!-- Reset + Apply -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:gravity="center"
+            android:text="Reset"
+            android:textColor="#1A1612"
+            android:textSize="16sp"
+            android:background="@drawable/bg_pill_range_unselected" />
+
+        <TextView
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:gravity="center"
+            android:text="Apply"
+            android:textColor="#FFFCF5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn_dark" />
+
+    </LinearLayout>
+
+</LinearLayout>

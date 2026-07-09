@@ -37,6 +37,11 @@ class HistoryFragment : Fragment() {
     }
     private var allItems: List<Expense> = emptyList()
 
+    // current filter/sort choices (defaults)
+    private var currentSort = "Newest"
+    private var currentRange = "All time"
+    private var currentCategory = "All"
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,13 +60,29 @@ class HistoryFragment : Fragment() {
             showFiltered(text.toString())
         }
 
+        // open the filter/sort sheet, passing current choices
+        binding.btnFilter.setOnClickListener {
+            FilterSortFragment.newInstance(currentSort, currentRange, currentCategory)
+                .show(parentFragmentManager, "filter_sort")
+        }
+
+        // receive Apply result → store choices → refresh list
+        parentFragmentManager.setFragmentResultListener(
+            "filter_sort_result", viewLifecycleOwner
+        ) { _, bundle ->
+            currentSort = bundle.getString("sort") ?: "Newest"
+            currentRange = bundle.getString("range") ?: "All time"
+            currentCategory = bundle.getString("category") ?: "All"
+            showFiltered(binding.editSearch.text.toString())
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.allExpenses.collect { expenses ->
                     allItems = expenses
                     showFiltered(binding.editSearch.text.toString())
                     val total = expenses.sumOf { it.amount }
-                    binding.textHistoryTotal.text = "Rs. ${"%,.0f".format(total)}"
+                    binding.textHistoryTotal.text = com.et.expensetrackorapp.util.CurrencyFormatter.format(requireContext(), total)
                 }
             }
         }
@@ -74,15 +95,60 @@ class HistoryFragment : Fragment() {
         }
     }
     private fun showFiltered(query: String) {
-        val filtered = if (query.isBlank()) {
-            allItems
-        } else {
-            allItems.filter {
+        var list = allItems
+
+        // 1) search text
+        if (query.isNotBlank()) {
+            list = list.filter {
                 it.title.contains(query, ignoreCase = true) ||
                         it.category.contains(query, ignoreCase = true)
             }
         }
-        adapter.updateData(groupByDate(filtered))
+
+        // 2) category
+        if (currentCategory != "All") {
+            list = list.filter { it.category == currentCategory }
+        }
+
+        // 3) date range
+        list = filterByRange(list, currentRange)
+
+        // 4) sort
+        list = when (currentSort) {
+            "Oldest"  -> list.sortedBy { it.date }
+            "Highest" -> list.sortedByDescending { it.amount }
+            "Lowest"  -> list.sortedBy { it.amount }
+            else      -> list.sortedByDescending { it.date } // Newest
+        }
+
+        adapter.updateData(groupByDate(list))
+    }
+
+    // keep only expenses whose date falls in the chosen window
+    private fun filterByRange(list: List<Expense>, range: String): List<Expense> {
+        if (range == "All time") return list
+        val fmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val today = java.util.Calendar.getInstance()
+
+        val start = java.util.Calendar.getInstance()
+        when (range) {
+            "This month" -> {
+                start.set(java.util.Calendar.DAY_OF_MONTH, 1)
+            }
+            "Last 30 days" -> start.add(java.util.Calendar.DAY_OF_YEAR, -30)
+            "Last 7 days"  -> start.add(java.util.Calendar.DAY_OF_YEAR, -7)
+            else -> return list
+        }
+
+        return list.filter {
+            try {
+                val d = fmt.parse(it.date) ?: return@filter false
+                val cal = java.util.Calendar.getInstance().apply { time = d }
+                !cal.before(start) && !cal.after(today)
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
     private fun formatDateLabel(date: String): String {
         return try {

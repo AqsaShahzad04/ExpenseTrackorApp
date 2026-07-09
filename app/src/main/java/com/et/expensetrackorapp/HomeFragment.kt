@@ -18,12 +18,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
 import kotlinx.coroutines.launch
 import com.et.expensetrackorapp.data.local.Budget
+import com.et.expensetrackorapp.data.local.Expense
 import com.et.expensetrackorapp.data.repository.BudgetRepository
 import com.et.expensetrackorapp.viewmodel.BudgetViewModel
 import com.et.expensetrackorapp.viewmodel.BudgetViewModelFactory
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.combine
 import android.widget.LinearLayout
+import com.et.expensetrackorapp.util.CurrencyFormatter
 
 class HomeFragment: Fragment() {
 
@@ -45,6 +47,11 @@ class HomeFragment: Fragment() {
     private val adapter = ExpenseAdaptor(emptyList()) {
         findNavController().navigate(R.id.historyFragment)
     }
+
+    // latest month data, kept for the notifications sheet
+    private var latestSpent = 0.0
+    private var latestBudget = 0.0
+    private var latestBiggest: Expense? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,6 +75,15 @@ class HomeFragment: Fragment() {
         }
         binding.cardStatistics.setOnClickListener {
             findNavController().navigate(R.id.statsFragment)
+        }
+
+        binding.btnNotifications.setOnClickListener {
+            NotificationsFragment.newInstance(
+                latestSpent,
+                latestBudget,
+                latestBiggest?.title,
+                latestBiggest?.amount ?: 0.0
+            ).show(parentFragmentManager, "notifications")
         }
 
         binding.recyclerExpenses.layoutManager = LinearLayoutManager(requireContext())
@@ -100,7 +116,12 @@ class HomeFragment: Fragment() {
                     val monthExpenses = expenses.filter { it.date.startsWith(currentMonth) }
 
                     val spentThisMonth = monthExpenses.sumOf { it.amount }
-                    binding.textSpentThisMonth.text = "Rs. ${"%,.0f".format(spentThisMonth)}"
+                    binding.textSpentThisMonth.text = CurrencyFormatter.format(requireContext(), spentThisMonth)
+
+                    // keep latest values for the notifications sheet
+                    latestSpent = spentThisMonth
+                    latestBudget = budget?.amount ?: 0.0
+                    latestBiggest = monthExpenses.maxByOrNull { it.amount }
 
                     val txnCount = monthExpenses.size
                     binding.textTxns.text = txnCount.toString()
@@ -112,24 +133,25 @@ class HomeFragment: Fragment() {
                     val dayOfMonth = java.util.Calendar.getInstance()
                         .get(java.util.Calendar.DAY_OF_MONTH)
                     val dailyAvg = if (dayOfMonth > 0) spentThisMonth / dayOfMonth else 0.0
-                    binding.textDailyAvg.text = "Rs. ${"%,.0f".format(dailyAvg)}"
+                    binding.textDailyAvg.text = CurrencyFormatter.format(requireContext(), dailyAvg)
 
                     // ---- Budget text + progress bar ----
                     val budgetAmount = budget?.amount ?: 0.0
 
                     if (budgetAmount > 0) {
 
-                        binding.textBudgetValue.text = "Rs. ${"%,.0f".format(budgetAmount)}"
+                        binding.textBudgetValue.text = CurrencyFormatter.format(requireContext(), budgetAmount)
 
                         // fraction of budget used, capped at 1.0 (100%)
                         val fraction = (spentThisMonth / budgetAmount).coerceIn(0.0, 1.0)
 
                         val percent = (fraction * 100).toInt()
                         binding.textPercentOfBudget.text =
-                            "$percent% of Rs. ${"%,.0f".format(budgetAmount)}"
+                            "$percent% of ${CurrencyFormatter.format(requireContext(), budgetAmount)}"
 
                         val remaining = budgetAmount - spentThisMonth
-                        binding.textRemaining.text = "Rs. ${"%,.0f".format(remaining)} left"
+                        binding.textRemaining.text =
+                            "${CurrencyFormatter.format(requireContext(), remaining)} left"
 
                         binding.viewProgressFill.layoutParams =
                             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, fraction.toFloat())

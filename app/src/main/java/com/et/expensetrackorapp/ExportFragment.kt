@@ -28,6 +28,7 @@ import com.et.expensetrackorapp.viewmodel.BudgetViewModel
 import com.et.expensetrackorapp.viewmodel.BudgetViewModelFactory
 import android.content.Intent
 import androidx.core.content.FileProvider
+import com.et.expensetrackorapp.util.CurrencyFormatter
 
 class ExportFragment : BottomSheetDialogFragment() {
 
@@ -181,7 +182,7 @@ class ExportFragment : BottomSheetDialogFragment() {
         val total = list.sumOf { it.amount }
         binding.summaryCount.text = "${list.size} transactions"
         binding.summaryRange.text = selectedRange.label
-        binding.summaryTotal.text = "Rs. " + "%,.0f".format(total)
+        binding.summaryTotal.text = CurrencyFormatter.format(requireContext(), total)
     }
 
     // walks every pill and gives it the selected or unselected look

@@ -39,7 +39,7 @@ class HistoryAdaptor(
                 ColorStateList.valueOf(CategoryColors.lightBgFor(e.category))
             rowBinding.textTitle.text = e.title
             rowBinding.textCategory.text = "${e.category} · ${e.date}"
-            rowBinding.textAmount.text = "- Rs. ${"%,.0f".format(e.amount)}"
+            rowBinding.textAmount.text = "- ${com.et.expensetrackorapp.util.CurrencyFormatter.format(container.context, e.amount)}"
             rowBinding.root.setOnClickListener { onExpenseClick(e) }
             container.addView(rowBinding.root)
 

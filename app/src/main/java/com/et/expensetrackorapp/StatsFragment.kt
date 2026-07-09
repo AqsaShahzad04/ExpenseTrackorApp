@@ -14,6 +14,7 @@ import com.et.expensetrackorapp.data.local.Expense
 import com.et.expensetrackorapp.data.repository.ExpenseRepository
 import com.et.expensetrackorapp.databinding.FragmentStatsBinding
 import com.et.expensetrackorapp.viewmodel.CategoryColors
+import com.et.expensetrackorapp.util.CurrencyFormatter
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
 import com.et.expensetrackorapp.viewmodel.StatsCalculator
@@ -95,7 +96,7 @@ class StatsFragment : Fragment() {
         buildCategoryList(stats)
 
         val grandTotal = expenses.sumOf { it.amount }
-        binding.tvTotal.text = "Rs. " + "%,.0f".format(grandTotal)
+        binding.tvTotal.text = CurrencyFormatter.format(requireContext(), grandTotal)
         binding.tvTxnCount.text = "${expenses.size} transactions"
 
         val dataSet = PieDataSet(entries, "").apply {
@@ -140,7 +141,7 @@ class StatsFragment : Fragment() {
         binding.barChart.setFitBars(true)
 
         val peak = days.maxOfOrNull { it.total } ?: 0.0
-        binding.tvPeak.text = "peak Rs. " + "%,.0f".format(peak)
+        binding.tvPeak.text = "peak " + CurrencyFormatter.format(requireContext(), peak)
 
         binding.barChart.invalidate()
         binding.barChart.animateY(600)
@@ -334,7 +335,7 @@ class StatsFragment : Fragment() {
             dot.background = circle
 
             name.text = stat.category
-            amount.text = "Rs. " + "%,.0f".format(stat.total)
+            amount.text = CurrencyFormatter.format(requireContext(), stat.total)
             percent.text = "${stat.percent}%"
 
             val fill = row.findViewById<View>(R.id.progressFill)

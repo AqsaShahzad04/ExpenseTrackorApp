@@ -19,6 +19,7 @@ import com.et.expensetrackorapp.data.repository.ExpenseRepository
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
 import kotlinx.coroutines.flow.combine
+import com.et.expensetrackorapp.util.CurrencyFormatter
 
 class BudgetFragment: Fragment() {
 
@@ -72,10 +73,10 @@ class BudgetFragment: Fragment() {
                         .filter { it.date.startsWith(currentMonth) }
                         .sumOf { it.amount }
 
-                    binding.textBudgetSpent.text = "Rs. ${"%,.0f".format(spentThisMonth)}"
+                    binding.textBudgetSpent.text = CurrencyFormatter.format(requireContext(), spentThisMonth)
 
                     if (budget != null) {
-                        binding.textMonthlyLimit.text = "Rs. ${"%,.0f".format(budget.amount)}"
+                        binding.textMonthlyLimit.text = CurrencyFormatter.format(requireContext(), budget.amount)
 
                         val remaining = (budget.amount - spentThisMonth).coerceAtLeast(0.0)
                         val percent = if (budget.amount > 0)
@@ -84,7 +85,7 @@ class BudgetFragment: Fragment() {
 
                         binding.budgetRing.progress = percent.coerceAtMost(100)
                         binding.textBudgetPercent.text = percent.coerceAtMost(100).toString()
-                        binding.textBudgetRemaining.text = "Rs. ${"%,.0f".format(remaining)}"
+                        binding.textBudgetRemaining.text = CurrencyFormatter.format(requireContext(), remaining)
 
                         val calendar = java.util.Calendar.getInstance()
                         val dayOfMonth = calendar.get(java.util.Calendar.DAY_OF_MONTH)
@@ -92,17 +93,17 @@ class BudgetFragment: Fragment() {
                         binding.textPacingLabel.text = "By day $dayOfMonth of $daysInMonth, expected"
 
                         val expected = budget.amount * dayOfMonth / daysInMonth
-                        binding.textPacingExpected.text = "Rs. ${"%,.0f".format(expected)}"
+                        binding.textPacingExpected.text = CurrencyFormatter.format(requireContext(), expected)
                         val delta = expected - spentThisMonth
 
                         if (delta >= 0) {
                             binding.textPacingStatus.text = "Under pace"
                             binding.textPacingStatus.setTextColor(android.graphics.Color.parseColor("#D9822B"))
-                            binding.textPacingDelta.text = "-Rs. ${"%,.0f".format(delta)}"
+                            binding.textPacingDelta.text = "-${CurrencyFormatter.format(requireContext(), delta)}"
                         } else {
                             binding.textPacingStatus.text = "Over pace"
                             binding.textPacingStatus.setTextColor(android.graphics.Color.parseColor("#D32F2F"))
-                            binding.textPacingDelta.text = "+Rs. ${"%,.0f".format(-delta)}"
+                            binding.textPacingDelta.text = "+${CurrencyFormatter.format(requireContext(), -delta)}"
                         }
 
                         if (spentThisMonth > budget.amount) {
@@ -113,14 +114,14 @@ class BudgetFragment: Fragment() {
 
                     } else {
 
-                        binding.textMonthlyLimit.text = "Rs. 0"
-                        binding.textBudgetRemaining.text = "Rs. 0"
+                        binding.textMonthlyLimit.text = CurrencyFormatter.format(requireContext(), 0.0)
+                        binding.textBudgetRemaining.text = CurrencyFormatter.format(requireContext(), 0.0)
                         binding.budgetRing.progress = 0
                         binding.textBudgetPercent.text = "0"
                         binding.textPacingLabel.text = "By day —, expected"
-                        binding.textPacingExpected.text = "Rs. 0"
+                        binding.textPacingExpected.text = CurrencyFormatter.format(requireContext(), 0.0)
                         binding.textPacingStatus.text = ""
-                        binding.textPacingDelta.text = "Rs. 0"
+                        binding.textPacingDelta.text = CurrencyFormatter.format(requireContext(), 0.0)
                         binding.textOverBudgetBanner.visibility = View.GONE
                     }
                 }

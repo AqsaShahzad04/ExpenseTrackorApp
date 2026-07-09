@@ -9,6 +9,7 @@ import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import androidx.core.content.res.ResourcesCompat
 import com.et.expensetrackorapp.data.local.Expense
+import com.et.expensetrackorapp.util.CurrencyFormatter
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -25,7 +26,8 @@ object PdfReportBuilder {
     private val inFmt = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val outFmt = SimpleDateFormat("M/d/yyyy", Locale.getDefault())
 
-    private fun money(v: Double) = "Rs. " + "%,.0f".format(v)
+    private fun money(context: Context, v: Double) =
+        CurrencyFormatter.format(context, v)
 
     private fun prettyDate(raw: String): String = try {
         outFmt.format(inFmt.parse(raw)!!)
@@ -85,11 +87,11 @@ object PdfReportBuilder {
 
         // big values
         val total = expenses.sumOf { it.amount }
-        val budgetText = if (budget != null) money(budget) else "Not set"
+        val budgetText = if (budget != null) money(context, budget) else "Not set"
         ink.typeface = fraunces
         ink.color = Color.parseColor("#1F1F1F")
         ink.textSize = 22f
-        canvas.drawText(money(total), MARGIN + 20f, bandTop + 54f, ink)
+        canvas.drawText(money(context, total), MARGIN + 20f, bandTop + 54f, ink)
         val budgetW = ink.measureText(budgetText)
         canvas.drawText(budgetText, PAGE_W - MARGIN - 20f - budgetW, bandTop + 54f, ink)
 
@@ -131,7 +133,7 @@ object PdfReportBuilder {
 
             // amount right-aligned, dark
             ink.color = Color.parseColor("#1F1F1F")
-            val amtStr = money(e.amount)
+            val amtStr = money(context, e.amount)
             canvas.drawText(amtStr, colAmtRight - ink.measureText(amtStr), y, ink)
 
             // thin row divider

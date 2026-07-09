@@ -24,6 +24,7 @@ import java.util.Locale
 import com.et.expensetrackorapp.data.repository.ExpenseRepository
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModel
 import com.et.expensetrackorapp.viewmodel.ExpenseViewModelFactory
+import com.et.expensetrackorapp.util.CurrencyFormatter
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.flow.first
@@ -88,6 +89,8 @@ class SettingsFragment : Fragment() {
             binding.currencyContainer
                 .findViewById<TextView>(R.id.rowValue)
                 ?.text = newCurrency
+            // budget row shows an amount → rebuild it so its symbol updates too
+            buildBudgetRow()
         }
         // keep the live transaction count updated
         viewLifecycleOwner.lifecycleScope.launch {
@@ -154,7 +157,7 @@ class SettingsFragment : Fragment() {
 
                     // budget?.amount is null if no budget set this month
                     val valueText = if (budget != null) {
-                        "Rs. " + "%,.0f".format(budget.amount)
+                        CurrencyFormatter.format(requireContext(), budget.amount)
                     } else {
                         "Not set"
                     }

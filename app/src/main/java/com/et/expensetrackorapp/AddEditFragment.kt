@@ -45,6 +45,10 @@ class AddEditFragment: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.textAmountSymbol.text =
+            com.et.expensetrackorapp.util.CurrencyFormatter.symbol(requireContext())
+
         val args = arguments
         if (args != null && args.containsKey("arg_id")) {
             editingExpense = Expense(

@@ -73,7 +73,10 @@ class CurrencyPickerFragment : BottomSheetDialogFragment() {
 
             // row tap → save + notify Settings + dismiss
             row.setOnClickListener {
-                prefs.edit().putString("currency", displayValue).apply()
+                prefs.edit()
+                    .putString("currency", displayValue)
+                    .putString("currency_symbol", c.symbol)
+                    .apply()
                 setFragmentResult(
                     "currency_result",
                     bundleOf("currency" to displayValue)

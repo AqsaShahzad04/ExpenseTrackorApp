@@ -38,7 +38,7 @@ class ExpenseAdaptor(
             ColorStateList.valueOf(CategoryColors.lightBgFor(expense.category))
         holder.binding.textTitle.text = expense.title
         holder.binding.textCategory.text = "${expense.category} · ${expense.date}"
-        holder.binding.textAmount.text = "- Rs. ${"%,.0f".format(expense.amount)}"
+        holder.binding.textAmount.text = "- ${com.et.expensetrackorapp.util.CurrencyFormatter.format(holder.itemView.context, expense.amount)}"
         holder.itemView.setOnClickListener { onItemClick() }
     }
 
