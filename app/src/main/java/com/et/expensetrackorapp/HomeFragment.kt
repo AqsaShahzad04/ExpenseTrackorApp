@@ -94,12 +94,30 @@ class HomeFragment: Fragment() {
 
         binding.recyclerExpenses.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerExpenses.adapter = adapter
-        val divider = androidx.recyclerview.widget.DividerItemDecoration(
-            requireContext(), LinearLayoutManager.VERTICAL
-        )
-        androidx.core.content.ContextCompat.getDrawable(requireContext(), R.drawable.divider_row)
-            ?.let { divider.setDrawable(it) }
-        binding.recyclerExpenses.addItemDecoration(divider)
+
+        val dividerDrawable = androidx.core.content.ContextCompat.getDrawable(
+            requireContext(), R.drawable.divider_row
+        )!!
+
+        binding.recyclerExpenses.addItemDecoration(object : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
+            override fun onDraw(
+                c: android.graphics.Canvas,
+                parent: androidx.recyclerview.widget.RecyclerView,
+                state: androidx.recyclerview.widget.RecyclerView.State
+            ) {
+                val left = parent.paddingLeft
+                val right = parent.width - parent.paddingRight
+                // draw between items only — stop before the last child
+                for (i in 0 until parent.childCount - 1) {
+                    val child = parent.getChildAt(i)
+                    val params = child.layoutParams as androidx.recyclerview.widget.RecyclerView.LayoutParams
+                    val top = child.bottom + params.bottomMargin
+                    val bottom = top + dividerDrawable.intrinsicHeight
+                    dividerDrawable.setBounds(left, top, right, bottom)
+                    dividerDrawable.draw(c)
+                }
+            }
+        })
 
         val currentMonth = java.text.SimpleDateFormat("yyyy-MM", java.util.Locale.getDefault())
             .format(java.util.Date())

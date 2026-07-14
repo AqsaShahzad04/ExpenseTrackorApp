@@ -18,9 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SETTINGS"
+            android:textStyle="bold"
             android:textColor="@color/nav_inactive"
             android:textSize="12sp"
-            android:letterSpacing="0.1" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,8 +29,8 @@
             android:text="Preferences"
             android:textColor="@color/black"
             android:textSize="28sp"
+            android:textStyle="bold"
             android:fontFamily="@font/fraunces"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="24dp" />
 
         <!-- CURRENCY section -->
@@ -39,7 +40,7 @@
             android:text="CURRENCY"
             android:textColor="@color/nav_inactive"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="14dp"
-            app:cardElevation="1dp"
+
             app:strokeWidth="0dp"
             app:cardBackgroundColor="@color/white">
 
@@ -66,7 +67,7 @@
             android:text="BUDGET"
             android:textColor="@color/nav_inactive"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
+           android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -74,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="14dp"
-            app:cardElevation="1dp"
+
             app:strokeWidth="0dp"
             app:cardBackgroundColor="@color/white">
 
@@ -93,7 +94,7 @@
             android:text="DATA"
             android:textColor="@color/nav_inactive"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -101,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="14dp"
-            app:cardElevation="1dp"
+
             app:strokeWidth="0dp"
             app:cardBackgroundColor="@color/white">
 
@@ -118,9 +119,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ABOUT"
+            android:textStyle="bold"
             android:textColor="@color/nav_inactive"
             android:textSize="12sp"
-            android:letterSpacing="0.1"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -128,7 +129,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="14dp"
-            app:cardElevation="1dp"
+
             app:strokeWidth="0dp"
             app:cardBackgroundColor="@color/white">
 

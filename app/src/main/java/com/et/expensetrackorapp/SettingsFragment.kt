@@ -236,8 +236,8 @@ class SettingsFragment : Fragment() {
             LinearLayout.LayoutParams.MATCH_PARENT,
             (1 * density).toInt()
         )
-        val side = (16 * density).toInt()
-        lp.setMargins(side, 0, side, 0)
+
+        lp.setMargins(0, 0, 0, 0)
         divider.layoutParams = lp
         divider.setBackgroundColor(android.graphics.Color.parseColor("#E0D7C8"))
         return divider

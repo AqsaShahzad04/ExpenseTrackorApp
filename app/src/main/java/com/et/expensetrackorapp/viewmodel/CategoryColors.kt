@@ -24,6 +24,15 @@ object CategoryColors {
     // Lightest tint of the category color — same hue, low alpha. Used for the icon circle bg.
     fun lightBgFor(category: String): Int {
         val base = colorFor(category)
-        return Color.argb(38, Color.red(base), Color.green(base), Color.blue(base))
+        return Color.argb(20, Color.red(base), Color.green(base), Color.blue(base))
+    }
+
+    fun tileBgFor(category: String): Int {
+        val base = colorFor(category)
+        val ratio = 0.15f
+        val r = (Color.red(base) * ratio + 255 * (1 - ratio)).toInt()
+        val g = (Color.green(base) * ratio + 255 * (1 - ratio)).toInt()
+        val b = (Color.blue(base) * ratio + 255 * (1 - ratio)).toInt()
+        return Color.rgb(r, g, b)
     }
 }

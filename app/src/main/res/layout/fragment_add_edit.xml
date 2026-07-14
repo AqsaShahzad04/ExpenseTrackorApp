@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBF7F0">
+    android:background="@drawable/bg_bottom_sheet">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,32 +11,50 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/textTitle2"
-            android:layout_width="wrap_content"
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:text="Add expense"
-            android:textColor="#2B2620"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="16dp">
 
+            <TextView
+                android:id="@+id/textTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add expense"
+                android:textColor="#2B2620"
+                android:fontFamily="@font/fraunces_bold"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
+            <ImageButton
+                android:id="@+id/btnClose"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_close_circle"
+                android:src="@drawable/ic_cross"
+                android:scaleType="centerInside"
+                android:padding="7dp"
+                android:contentDescription="Close"
+                app:tint="#6B6155" />
+        </LinearLayout>
+
+        <!-- Amount -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="#FFFDF9"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="20dp">
+                android:padding="17dp">
 
                 <TextView
                     android:id="@+id/textAmountSymbol"
@@ -44,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="Rs."
                     android:textSize="26sp"
+                    android:fontFamily="@font/fraunces"
                     android:textColor="#8A8175"
                     android:layout_marginEnd="8dp" />
 
@@ -53,20 +72,24 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:backgroundTint="@android:color/transparent"
                     android:hint="0"
+                    android:textColorHint="#BDB8B8"
+                    android:fontFamily="@font/fraunces"
                     android:inputType="number"
                     android:textColor="#1B1B1B"
-                    android:textSize="39sp" />
+                    android:textSize="34sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-
+        <!-- Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NAME"
-            android:textSize="11sp"
-            android:textColor="#A39A8C"
+            android:textStyle="bold"
+            android:textSize="9sp"
+            android:textColor="#ABA9A6"
             android:letterSpacing="0.1"
             android:paddingBottom="6dp" />
 
@@ -74,26 +97,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="#FFFDF9"
             android:layout_marginBottom="18dp">
 
             <EditText
                 android:id="@+id/editName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
                 android:hint="e.g. Coffee with Sara"
+                android:textColorHint="#A8A0A0"
                 android:background="@null"
                 android:padding="14dp"
                 android:textColor="#1B1B1B" />
         </com.google.android.material.card.MaterialCardView>
 
-
+        <!-- Category -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CATEGORY"
-            android:textSize="11sp"
+            android:textSize="9sp"
+            android:textStyle="bold"
             android:textColor="#A39A8C"
             android:letterSpacing="0.1"
             android:paddingBottom="8dp" />
@@ -102,52 +126,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="1dp">
 
-
+            <!-- Tile 1: Food -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardFood"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFDF9">
+                app:cardBackgroundColor="#FFFDF9"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/food"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_foodanddrink"
                         app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textFood"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Food &amp; Drink"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 2: Transport -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTransport"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFDF9">
 
                 <LinearLayout
@@ -155,22 +183,24 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/car"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_transport"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textTransport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Transport"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -178,116 +208,126 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardHealth"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFDF9">
+                app:cardBackgroundColor="#FFFDF9"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/health"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_health"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textHealth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Health"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 4: Shopping -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardShopping"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFDF9">
+                app:cardBackgroundColor="#FFFDF9"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/shopping"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_shopping"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textShopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Shopping"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 5: Bills -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardBills"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFDF9">
+                app:cardBackgroundColor="#FFFDF9"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/bills"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_bills"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textBills"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bills"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 6: Entertainment -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEntertainment"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFDF9">
 
                 <LinearLayout
@@ -295,34 +335,37 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/entertainment"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_entertainment"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textEntertainment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:paddingTop="6dp"
+                        android:paddingTop="4dp"
                         android:text="Entertainment"
                         android:textColor="#5A5249"
                         android:textSize="10sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 7: Education -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEducation"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFDF9">
 
                 <LinearLayout
@@ -330,34 +373,37 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/education"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_education"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textEducation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Education"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 8: Coffee -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCoffee"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFDF9">
 
                 <LinearLayout
@@ -365,34 +411,37 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/coffee"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_coffee"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textCoffee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Coffee"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
+            <!-- Tile 9: Others -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardOther"
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="64dp"
                 android:layout_columnWeight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFDF9">
 
                 <LinearLayout
@@ -400,43 +449,46 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:padding="14dp">
+                    android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/other"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_other"
-                        app:tint="#000000" /> />
+                        app:tint="#000000" />
 
                     <TextView
+                        android:id="@+id/textOther"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Others"
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#5A5249"
                         android:gravity="center"
-                        android:paddingTop="6dp" />
+                        android:paddingTop="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </GridLayout>
 
-
+        <!-- Date -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DATE"
-            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textSize="9sp"
             android:textColor="#A39A8C"
             android:letterSpacing="0.1"
+            android:paddingTop="10dp"
             android:paddingBottom="6dp" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="14dp"
-            app:cardElevation="2dp"
-            app:cardBackgroundColor="#FFFDF9"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="14dp"
+            app:strokeWidth="0dp">
 
             <EditText
                 android:id="@+id/editDate"
@@ -444,48 +496,62 @@
                 android:layout_height="wrap_content"
                 android:hint="06/13/2026 12:44 PM"
                 android:background="@null"
-                android:padding="14dp"
+                android:padding="10dp"
                 android:textColor="#1B1B1B"
+                android:backgroundTint="@android:color/transparent"
                 android:focusable="false"
-                android:clickable="true"
-                />
+                android:clickable="true" />
         </com.google.android.material.card.MaterialCardView>
 
-
+        <!-- Action buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
+            <!-- Delete: fixed square, conditionally visible -->
             <ImageButton
                 android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_btn_delete"
-                android:layout_height="48dp"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
                 android:src="@drawable/ic_delete"
-                app:tint="#8A2525" />
 
+                android:contentDescription="Delete"
+                app:tint="#8A2525"
+                android:visibility="gone" />
+
+            <!-- Cancel: pale pill, weighted -->
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="58dp"
                 android:layout_weight="1"
                 android:text="Cancel"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:textColor="#2B2620"
-                android:backgroundTint="#EDE7DD"
+                android:backgroundTint="#EDE7DC"
+                android:textAllCaps="false"
+                app:cornerRadius="12dp"
                 android:layout_marginEnd="8dp" />
 
+            <!-- Add: solid grey pill, wider -->
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="#615D5D"
+                android:layout_height="58dp"
+                android:layout_weight="1.6"
                 android:text="Add expense"
-                android:textColor="#FFFFFF" />
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#9E9A92"
+                android:textAllCaps="false"
+                app:cornerRadius="12dp" />
+
         </LinearLayout>
 
     </LinearLayout>

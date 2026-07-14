@@ -265,7 +265,14 @@ class StatsFragment : Fragment() {
             xAxis.textSize = 11f
             xAxis.granularity = 1f
             setExtraBottomOffset(8f)
+            setExtraTopOffset(20f)
             setExtraTopOffset(20f)                // room for the "206k" labels above bars
+            renderer = com.et.expensetrackorapp.viewmodel.RoundedBarChartRenderer(
+                this,
+                animator,
+                viewPortHandler,
+                resources.displayMetrics.density * 6f   // 6dp radius on all four corners
+            )
         }
     }
 

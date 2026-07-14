@@ -68,11 +68,11 @@ object StatsCalculator {
         val result = mutableListOf<MonthStat>()
 
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.MONTH, -2) // 2 months ago + this month = 3 months
+        calendar.add(Calendar.MONTH, -1) // 1 month ago + this month = 2 months
 
-        repeat(3) {
-            val key = keyFormat.format(calendar.time)     // "2026-05"
-            val label = labelFormat.format(calendar.time) // "May"
+        repeat(2) {
+            val key = keyFormat.format(calendar.time)
+            val label = labelFormat.format(calendar.time)
             val monthTotal = expenses
                 .filter { it.date.startsWith(key) }
                 .sumOf { it.amount }

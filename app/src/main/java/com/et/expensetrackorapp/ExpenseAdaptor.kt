@@ -37,9 +37,22 @@ class ExpenseAdaptor(
         holder.binding.iconCircle.backgroundTintList =
             ColorStateList.valueOf(CategoryColors.lightBgFor(expense.category))
         holder.binding.textTitle.text = expense.title
-        holder.binding.textCategory.text = "${expense.category} · ${expense.date}"
+        holder.binding.textCategory.text = "${expense.category} · ${formatDate(expense.date)}"
         holder.binding.textAmount.text = "- ${com.et.expensetrackorapp.util.CurrencyFormatter.format(holder.itemView.context, expense.amount)}"
         holder.itemView.setOnClickListener { onItemClick() }
+    }
+
+    private fun formatDate(raw: String): String {
+        val patterns = listOf("yyyy-MM-dd", "MM/dd/yyyy hh:mm a", "MM/dd/yyyy")
+        for (p in patterns) {
+            try {
+                val parsed = java.text.SimpleDateFormat(p, java.util.Locale.getDefault()).parse(raw)
+                if (parsed != null) {
+                    return java.text.SimpleDateFormat("MMMM d", java.util.Locale.getDefault()).format(parsed)
+                }
+            } catch (_: Exception) { }
+        }
+        return raw   // fallback if format is unexpected
     }
 
     override fun getItemCount(): Int {
